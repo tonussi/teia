@@ -66,6 +66,12 @@ public class Teia extends PApplet {
         amigoDataAccessObject.listadeAmigos("female"));
 
     /**
+     * Cria lista de relacoes entre os amigos da rede cada nodo tem max(n)
+     * arestas
+     */
+    nodos = new ArrayList<Nodo>(amigoDataAccessObject.listadeRelacoes());
+
+    /**
      * Processo de imersao pos processamento dos resultados das informacoes dos
      * amigos do tipo homen
      */
