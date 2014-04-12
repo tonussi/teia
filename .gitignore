@@ -1,0 +1,11 @@
+sketch.properties
+libraries/
+tools/
+modes/
+data/
+.metadata
+*/lib*/*
+*/bin/*
+.classpath
+.project
+.settings
