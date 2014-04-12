@@ -17,16 +17,16 @@ import processing.core.PFont;
 
 public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
 
-  private Connection connection;
+  private final DBConnection dbConnection;
 
-  private DBConnection dbConnection;
+  private Connection connection;
 
   private Statement statement;
 
   private ResultSet resultSet;
 
-  private Logger logger = Logger.getLogger(AmigoDataAccessObjectImpl.class
-      .getName());
+  private final Logger logger = Logger
+      .getLogger(AmigoDataAccessObjectImpl.class.getName());
 
   PApplet processing;
 
@@ -42,6 +42,7 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
    * Ai sim livraremos a classe DAO de qualquer referencia ao motor grafico do
    * processing.
    */
+
   public AmigoDataAccessObjectImpl(PApplet processing, PFont font,
       DBConnection dbConnection) {
 
@@ -49,39 +50,12 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
     this.processing = processing;
     this.dbConnection = dbConnection;
 
-    try {
-
-      connection = dbConnection.connect();
-      statement = connection.createStatement();
-      resultSet = statement.executeQuery("SELECT VERSION()");
-
-      if (resultSet.next())
-        System.out.println(resultSet.getString(1));
-
-    } catch (SQLException event) {
-
-      logger.log(Level.SEVERE, event.getMessage(), event);
-
-    } finally {
-
-      try {
-        if (resultSet != null)
-          resultSet.close();
-        if (statement != null)
-          statement.close();
-        if (connection != null)
-          connection.close();
-
-      } catch (SQLException event) {
-
-        logger.log(Level.WARNING, event.getMessage(), event);
-
-      }
-    }
   }
 
   @Override
   public int quantidadeAmigos() {
+
+    int quantidadeAmigos = 0;
 
     try {
 
@@ -90,7 +64,7 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
       resultSet = statement.executeQuery("SELECT COUNT(*) from amigos");
 
       if (resultSet.next())
-        return resultSet.getInt(1);
+        quantidadeAmigos = resultSet.getInt(1);
 
     } catch (SQLException event) {
 
@@ -98,21 +72,11 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
 
     } finally {
 
-      try {
-
-        if (resultSet != null)
-          resultSet.close();
-        if (connection != null)
-          connection.close();
-
-      } catch (SQLException event) {
-
-        logger.log(Level.WARNING, event.getMessage(), event);
-
-      }
+      dbConnection.close();
     }
 
-    return 0;
+    return quantidadeAmigos;
+
   }
 
   @Override
@@ -134,18 +98,7 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
       logger.log(Level.SEVERE, event.getMessage(), event);
 
     } finally {
-
-      try {
-        if (resultSet != null)
-          resultSet.close();
-        if (connection != null)
-          connection.close();
-
-      } catch (SQLException event) {
-
-        logger.log(Level.WARNING, event.getMessage(), event);
-
-      }
+      dbConnection.close();
     }
   }
 
@@ -174,50 +127,54 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
       logger.log(Level.SEVERE, event.getMessage(), event);
 
     } finally {
-
-      try {
-        if (resultSet != null)
-          resultSet.close();
-        if (connection != null)
-          connection.close();
-
-      } catch (SQLException event) {
-        logger.log(Level.WARNING, event.getMessage(), event);
-      }
+      dbConnection.close();
     }
 
     return infos;
   }
 
   @Override
-  public List<Nodo> listadeRelacoes(int quantidadeRelacoes) {
+  public List<Nodo> listadeRelacoes() {
 
+    List<BigInteger> relacoes = new ArrayList<BigInteger>();
     List<Nodo> nodos = new ArrayList<Nodo>();
-    List<BigInteger> relacoesParaHashSet = new ArrayList<BigInteger>();
-    int oid = 0;
+    BigInteger uid = BigInteger.ZERO;
+    int agerank = 0;
 
     try {
 
       connection = dbConnection.connect();
-
-      resultSet = statement.executeQuery("SELECT oid FROM relacoes LIMIT 1");
+      statement = connection.createStatement();
+      resultSet = statement.executeQuery("SELECT COUNT(*) from amigos");
 
       if (resultSet.next())
-        oid = resultSet.getInt(1);
-      else
-        return null;
+        agerank = resultSet.getInt(1);
 
-      while (oid < quantidadeRelacoes) {
+      System.out.println(agerank);
+
+      for (int i = agerank; i > 0; i--) {
         resultSet = statement
-            .executeQuery("SELECT node1 FROM relacoes WHERE oid = " + oid);
-        oid = oid + 1;
+            .executeQuery("SELECT uid FROM amigos WHERE agerank = " + "'" + i
+                + "'");
+
+        if (resultSet.next())
+          uid = BigInteger.valueOf(Long.valueOf(resultSet.getString(1)));
+
+        System.out.println(uid.toString());
+
+        resultSet = statement
+            .executeQuery("SELECT node2 FROM relacoes WHERE node1 = " + "'"
+                + uid + "'");
 
         while (resultSet.next())
-          relacoesParaHashSet.add(BigInteger.valueOf(Long.valueOf(resultSet
-              .getString(1))));
+          relacoes
+              .add(BigInteger.valueOf(Long.valueOf(resultSet.getString(1))));
 
-        nodos.add(new Nodo(processing, BigInteger.valueOf(Long
-            .valueOf(resultSet.getString(1))), relacoesParaHashSet));
+        nodos.add(new Nodo(processing, uid, relacoes));
+
+        System.out.println("Nodo: " + relacoes.toString());
+
+        relacoes.clear();
       }
 
     } catch (SQLException event) {
@@ -226,17 +183,36 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
 
     } finally {
 
-      try {
-        if (resultSet != null)
-          resultSet.close();
-        if (connection != null)
-          connection.close();
-
-      } catch (SQLException event) {
-        logger.log(Level.WARNING, event.getMessage(), event);
-      }
+      dbConnection.close();
     }
 
     return nodos;
+  }
+
+  @Override
+  public int primeiroId() {
+
+    int id = 0;
+
+    try {
+
+      connection = dbConnection.connect();
+      statement = connection.createStatement();
+      resultSet = statement.executeQuery("SELECT oid FROM relacoes LIMIT 1");
+
+      if (resultSet.next())
+        id = resultSet.getInt(1);
+
+    } catch (SQLException event) {
+
+      logger.log(Level.SEVERE, event.getMessage(), event);
+
+    } finally {
+
+      dbConnection.close();
+
+    }
+
+    return id;
   }
 }
