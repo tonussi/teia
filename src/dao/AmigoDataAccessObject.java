@@ -13,6 +13,8 @@ public interface AmigoDataAccessObject {
 
   public List<Info> listadeAmigos(String sex);
 
-  public List<Nodo> listadeRelacoes(int quantidadeRelacoes);
+  public List<Nodo> listadeRelacoes();
+
+  public int primeiroId();
 
 }
