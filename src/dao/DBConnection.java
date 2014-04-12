@@ -4,5 +4,7 @@ import java.sql.Connection;
 
 public interface DBConnection {
 
-	public Connection connectToDatabaseOrDie();
+  public Connection connect();
+
+  public Connection close();
 }

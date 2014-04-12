@@ -2,6 +2,6 @@ package model;
 
 public enum Humor {
 
-	FELIZ, CHATEADO, TRISTE, BRAVO
+  FELIZ, CHATEADO, TRISTE, BRAVO
 
 }

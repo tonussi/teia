@@ -17,224 +17,226 @@ import processing.core.PFont;
 
 public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
 
-	private Connection connection;
+  private Connection connection;
 
-	private DBConnection dbConnection;
+  private DBConnection dbConnection;
 
-	private Statement statement;
+  private Statement statement;
 
-	private ResultSet resultSet;
+  private ResultSet resultSet;
 
-	private Logger logger = Logger.getLogger(AmigoDataAccessObjectImpl.class
-			.getName());
+  private Logger logger = Logger.getLogger(AmigoDataAccessObjectImpl.class
+      .getName());
 
-	PApplet processing;
+  PApplet processing;
 
-	PFont font;
+  PFont font;
 
-	/*
-	 * Precisa ser refatorada da seguinte maneira PApplet processing e PFont
-	 * font nao deveririam estar aqui.
-	 * 
-	 * Essas referencias podem ser feitas na fachada da maneira de ela cria o
-	 * objetos e referencia ela mesmo.
-	 * 
-	 * Ai sim livraremos a classe DAO de qualquer referencia ao motor grafico do
-	 * processing.
-	 */
-	public AmigoDataAccessObjectImpl(PApplet processing, PFont font,
-			DBConnection dbConnection) {
+  /*
+   * Precisa ser refatorada da seguinte maneira PApplet processing e PFont font
+   * nao deveririam estar aqui.
+   * 
+   * Essas referencias podem ser feitas na fachada da maneira de ela cria o
+   * objetos e referencia ela mesmo.
+   * 
+   * Ai sim livraremos a classe DAO de qualquer referencia ao motor grafico do
+   * processing.
+   */
+  public AmigoDataAccessObjectImpl(PApplet processing, PFont font,
+      DBConnection dbConnection) {
 
-		this.font = font;
-		this.processing = processing;
-		this.dbConnection = dbConnection;
+    this.font = font;
+    this.processing = processing;
+    this.dbConnection = dbConnection;
 
-		try {
+    try {
 
-			connection = dbConnection.connectToDatabaseOrDie();
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery("SELECT VERSION()");
+      connection = dbConnection.connect();
+      statement = connection.createStatement();
+      resultSet = statement.executeQuery("SELECT VERSION()");
 
-			if (resultSet.next())
-				System.out.println(resultSet.getString(1));
+      if (resultSet.next())
+        System.out.println(resultSet.getString(1));
 
-		} catch (SQLException event) {
+    } catch (SQLException event) {
 
-			logger.log(Level.SEVERE, event.getMessage(), event);
+      logger.log(Level.SEVERE, event.getMessage(), event);
 
-		} finally {
+    } finally {
 
-			try {
-				if (resultSet != null)
-					resultSet.close();
-				if (statement != null)
-					statement.close();
-				if (connection != null)
-					connection.close();
+      try {
+        if (resultSet != null)
+          resultSet.close();
+        if (statement != null)
+          statement.close();
+        if (connection != null)
+          connection.close();
 
-			} catch (SQLException event) {
+      } catch (SQLException event) {
 
-				logger.log(Level.WARNING, event.getMessage(), event);
+        logger.log(Level.WARNING, event.getMessage(), event);
 
-			}
-		}
-	}
+      }
+    }
+  }
 
-	@Override
-	public int quantidadeAmigos() {
+  @Override
+  public int quantidadeAmigos() {
 
-		try {
+    try {
 
-			connection = dbConnection.connectToDatabaseOrDie();
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery("SELECT COUNT(*) from amigos");
+      connection = dbConnection.connect();
+      statement = connection.createStatement();
+      resultSet = statement.executeQuery("SELECT COUNT(*) from amigos");
 
-			if (resultSet.next())
-				return resultSet.getInt(1);
+      if (resultSet.next())
+        return resultSet.getInt(1);
 
-		} catch (SQLException event) {
-			logger.log(Level.SEVERE, event.getMessage(), event);
+    } catch (SQLException event) {
 
-		} finally {
+      logger.log(Level.SEVERE, event.getMessage(), event);
 
-			try {
+    } finally {
 
-				if (resultSet != null)
-					resultSet.close();
-				if (connection != null)
-					connection.close();
+      try {
 
-			} catch (SQLException event) {
+        if (resultSet != null)
+          resultSet.close();
+        if (connection != null)
+          connection.close();
 
-				logger.log(Level.WARNING, event.getMessage(), event);
+      } catch (SQLException event) {
 
-			}
-		}
+        logger.log(Level.WARNING, event.getMessage(), event);
 
-		return 0;
-	}
+      }
+    }
 
-	@Override
-	public void comparaTabelas() {
+    return 0;
+  }
 
-		try {
+  @Override
+  public void comparaTabelas() {
 
-			connection = dbConnection.connectToDatabaseOrDie();
-			statement = connection.createStatement();
-			resultSet = statement
-					.executeQuery("SELECT uid, node1, node2 FROM amigos INNER JOIN relacoes ON amigos.uid = relacoes.node1");
+    try {
 
-			while (resultSet.next())
-				System.out.println(resultSet.getString(1)
-						+ resultSet.getString(2) + resultSet.getString(3));
+      connection = dbConnection.connect();
+      statement = connection.createStatement();
+      resultSet = statement
+          .executeQuery("SELECT uid, node1, node2 FROM amigos INNER JOIN relacoes ON amigos.uid = relacoes.node1");
 
-		} catch (SQLException event) {
+      while (resultSet.next())
+        System.out.println(resultSet.getString(1) + resultSet.getString(2)
+            + resultSet.getString(3));
 
-			logger.log(Level.SEVERE, event.getMessage(), event);
+    } catch (SQLException event) {
 
-		} finally {
+      logger.log(Level.SEVERE, event.getMessage(), event);
 
-			try {
-				if (resultSet != null)
-					resultSet.close();
-				if (connection != null)
-					connection.close();
+    } finally {
 
-			} catch (SQLException event) {
-				logger.log(Level.WARNING, event.getMessage(), event);
-			}
-		}
-	}
+      try {
+        if (resultSet != null)
+          resultSet.close();
+        if (connection != null)
+          connection.close();
 
-	@Override
-	public List<Info> listadeAmigos(String sex) {
+      } catch (SQLException event) {
 
-		List<Info> infos = new ArrayList<Info>();
+        logger.log(Level.WARNING, event.getMessage(), event);
 
-		try {
+      }
+    }
+  }
 
-			connection = dbConnection.connectToDatabaseOrDie();
-			statement = connection.createStatement();
-			resultSet = statement
-					.executeQuery("SELECT uid, uname, sex, locale, agerank FROM amigos where agerank < 300 AND sex = "
-							+ "'" + sex + "'");
+  @Override
+  public List<Info> listadeAmigos(String sex) {
 
-			while (resultSet.next())
-				infos.add(new Info(processing, font, BigInteger.valueOf(Long
-						.valueOf(resultSet.getString(1))), resultSet
-						.getString(2), resultSet.getString(3), resultSet
-						.getString(4), resultSet.getInt(5)));
+    List<Info> infos = new ArrayList<Info>();
 
-		} catch (SQLException event) {
+    try {
 
-			logger.log(Level.SEVERE, event.getMessage(), event);
+      connection = dbConnection.connect();
+      statement = connection.createStatement();
+      resultSet = statement
+          .executeQuery("SELECT uid, uname, sex, locale, agerank FROM amigos where agerank < 300 AND sex = "
+              + "'" + sex + "'");
 
-		} finally {
+      while (resultSet.next())
+        infos
+            .add(new Info(processing, font, BigInteger.valueOf(Long
+                .valueOf(resultSet.getString(1))), resultSet.getString(2),
+                resultSet.getString(3), resultSet.getString(4), resultSet
+                    .getInt(5)));
 
-			try {
-				if (resultSet != null)
-					resultSet.close();
-				if (connection != null)
-					connection.close();
+    } catch (SQLException event) {
 
-			} catch (SQLException event) {
-				logger.log(Level.WARNING, event.getMessage(), event);
-			}
-		}
+      logger.log(Level.SEVERE, event.getMessage(), event);
 
-		return infos;
-	}
+    } finally {
 
-	@Override
-	public List<Nodo> listadeRelacoes() {
+      try {
+        if (resultSet != null)
+          resultSet.close();
+        if (connection != null)
+          connection.close();
 
-		List<Nodo> nodos = new ArrayList<Nodo>();
-		List<BigInteger> relacoesParaHashSet = new ArrayList<BigInteger>();
-		int oid = 0;
+      } catch (SQLException event) {
+        logger.log(Level.WARNING, event.getMessage(), event);
+      }
+    }
 
-		try {
+    return infos;
+  }
 
-			connection = dbConnection.connectToDatabaseOrDie();
+  @Override
+  public List<Nodo> listadeRelacoes(int quantidadeRelacoes) {
 
-			resultSet = statement
-					.executeQuery("SELECT oid FROM relacoes LIMIT 1");
+    List<Nodo> nodos = new ArrayList<Nodo>();
+    List<BigInteger> relacoesParaHashSet = new ArrayList<BigInteger>();
+    int oid = 0;
 
-			if (resultSet.next())
-				oid = resultSet.getInt(1);
-			else
-				return null;
+    try {
 
-			while (oid < 50000) {
-				resultSet = statement
-						.executeQuery("SELECT node1 FROM relacoes WHERE oid = "
-								+ oid);
-				oid = oid + 1;
+      connection = dbConnection.connect();
 
-				while (resultSet.next())
-					relacoesParaHashSet.add(BigInteger.valueOf(Long
-							.valueOf(resultSet.getString(1))));
+      resultSet = statement.executeQuery("SELECT oid FROM relacoes LIMIT 1");
 
-				nodos.add(new Nodo(processing, BigInteger.valueOf(Long
-						.valueOf(resultSet.getString(1))), relacoesParaHashSet));
-			}
+      if (resultSet.next())
+        oid = resultSet.getInt(1);
+      else
+        return null;
 
-		} catch (SQLException event) {
+      while (oid < quantidadeRelacoes) {
+        resultSet = statement
+            .executeQuery("SELECT node1 FROM relacoes WHERE oid = " + oid);
+        oid = oid + 1;
 
-			logger.log(Level.SEVERE, event.getMessage(), event);
+        while (resultSet.next())
+          relacoesParaHashSet.add(BigInteger.valueOf(Long.valueOf(resultSet
+              .getString(1))));
 
-		} finally {
+        nodos.add(new Nodo(processing, BigInteger.valueOf(Long
+            .valueOf(resultSet.getString(1))), relacoesParaHashSet));
+      }
 
-			try {
-				if (resultSet != null)
-					resultSet.close();
-				if (connection != null)
-					connection.close();
+    } catch (SQLException event) {
 
-			} catch (SQLException event) {
-				logger.log(Level.WARNING, event.getMessage(), event);
-			}
-		}
+      logger.log(Level.SEVERE, event.getMessage(), event);
 
-		return nodos;
-	}
+    } finally {
+
+      try {
+        if (resultSet != null)
+          resultSet.close();
+        if (connection != null)
+          connection.close();
+
+      } catch (SQLException event) {
+        logger.log(Level.WARNING, event.getMessage(), event);
+      }
+    }
+
+    return nodos;
+  }
 }

@@ -7,12 +7,12 @@ import model.Nodo;
 
 public interface AmigoDataAccessObject {
 
-	public int quantidadeAmigos();
+  public int quantidadeAmigos();
 
-	public void comparaTabelas();
+  public void comparaTabelas();
 
-	public List<Info> listadeAmigos(String sex);
+  public List<Info> listadeAmigos(String sex);
 
-	public List<Nodo> listadeRelacoes();
+  public List<Nodo> listadeRelacoes(int quantidadeRelacoes);
 
 }
