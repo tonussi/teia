@@ -4,8 +4,8 @@
 
 # Dependência
 
-Processing[²]
-Postgresql[⁴]
+- Processing[²]
+- Postgresql[⁴]
 
 ## Eclipse
 
