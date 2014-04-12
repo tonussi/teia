@@ -2,7 +2,7 @@
 
 É uma visualizador gráfico de rede social. Que usa Processing[¹] como motor gráfico.
 
-# Depêndencia
+# Dependência
 
 Processing[²]
 Postgresql[⁴]
