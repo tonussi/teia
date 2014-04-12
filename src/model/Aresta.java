@@ -6,12 +6,10 @@ public class Aresta {
   private int comprimento;
   private int largura;
   private int forca;
-  PApplet parent;
+  PApplet processing;
 
-  public Aresta(PApplet p, int comprimento, int largura, int forca) {
-    super();
-
-    parent = p;
+  public Aresta(PApplet processing, int comprimento, int largura, int forca) {
+    this.processing = processing;
     this.comprimento = comprimento;
     this.largura = largura;
     this.forca = forca;
