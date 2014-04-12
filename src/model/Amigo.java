@@ -25,6 +25,6 @@ public abstract class Amigo {
     local.add(acel);
   }
 
-  public void display() {
-  }
+  public abstract void display();
+
 }
