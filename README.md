@@ -23,6 +23,10 @@ Baixe o driver postgresql (http://jdbc.postgresql.org/download.html) e importe o
 - Animaçãos
 - Java
 
+# Formatação do Código
+
+Basta configurar o seu eclipse para formatar 2 espaços e regrar 80 characteres que está ótimo.
+
 [¹]:https://processing.org/
 [²]:https://processing.org/tutorials/eclipse/
 [³]:https://processing.org/download/
