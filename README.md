@@ -1,10 +1,14 @@
 # Teia
 
-É uma visualizador gráfico de rede social.
+É uma visualizador gráfico de rede social. Que usa Processing[¹] como motor gráfico.
 
 # Depêndencia
 
-Processing[¹]
+Processing[²]
+
+## Eclipse
+
+Sugiro usar Eclipse IDE e utilizar o plugin de __Processing para Eclipse__[²].
 
 # Conhecimento
 
@@ -14,4 +18,6 @@ Processing[¹]
 - Animaçãos
 - Java
 
-[¹]:http://processing.org/
+[¹]:https://processing.org/
+[²]:https://processing.org/tutorials/eclipse/
+[³]:https://processing.org/download/
