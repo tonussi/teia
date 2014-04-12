@@ -6,5 +6,7 @@ public interface DBConnection {
 
   public Connection connect();
 
-  public Connection close();
+  public void close();
+
+  public void verifica();
 }
