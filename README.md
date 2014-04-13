@@ -25,7 +25,7 @@ Baixe o driver postgresql (http://jdbc.postgresql.org/download.html) e importe o
 
 # Formatação do Código
 
-Basta configurar o seu eclipse para formatar 2 espaços e regrar 80 characteres que está ótimo.
+Basta configurar o seu eclipse para formatar 2 __espaços__ e regrar 80 characteres para o __código__ e 60 characteres para __comentários__. Que está ótimo. Para agilizar aperte `CTRL+3` digite `save actions` aperte enter, depois vá em formatter e configure.
 
 [¹]:https://processing.org/
 [²]:https://processing.org/tutorials/eclipse/
