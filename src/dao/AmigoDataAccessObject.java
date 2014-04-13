@@ -1,6 +1,8 @@
 package dao;
 
+import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 
 import model.Info;
 import model.Nodo;
@@ -11,10 +13,12 @@ public interface AmigoDataAccessObject {
 
   public void comparaTabelas();
 
-  public List<Info> listadeAmigos(String sex);
+  public List<Info> listaAmigosPorGenero(String sex);
 
-  public List<Nodo> listadeRelacoes();
+  public List<Nodo> listaRelacoes();
 
-  public int primeiroId();
+  public int primeiroId(String nomeId, String nomeTabela);
+
+  public Map<BigInteger, BigInteger> mapeiaRelacoes();
 
 }
