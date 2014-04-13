@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import model.Info;
-import model.Nodo;
+import model.Vertice;
 import processing.core.PApplet;
 import processing.core.PFont;
 
@@ -167,10 +167,10 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
   }
 
   @Override
-  public List<Nodo> listaRelacoes() {
+  public List<Vertice> listaRelacoes() {
 
     List<BigInteger> relacoes = new ArrayList<BigInteger>();
-    List<Nodo> nodos = new ArrayList<Nodo>();
+    List<Vertice> grafo = new ArrayList<Vertice>();
     BigInteger uid = BigInteger.ZERO;
     int agerank = 0;
 
@@ -199,10 +199,10 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
           relacoes
               .add(BigInteger.valueOf(Long.valueOf(resultSet.getString(1))));
 
-        nodos.add(new Nodo(processing, uid, relacoes));
+        grafo.add(new Vertice(processing, uid, relacoes));
 
-        // System.out.println("(Amigo=" + uid + "): tem os seguintes amigos: "
-        // + relacoes.toString());
+        System.out.println("(Amigo=" + uid + "): tem os seguintes amigos: "
+            + relacoes.toString());
 
         relacoes.clear();
       }
@@ -216,7 +216,7 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
       dbConnection.close();
     }
 
-    return nodos;
+    return grafo;
   }
 
   @Override
