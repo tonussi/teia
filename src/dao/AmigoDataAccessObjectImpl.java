@@ -35,14 +35,14 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
   PFont font;
 
   /*
-   * Precisa ser refatorada da seguinte maneira PApplet processing e PFont font
-   * nao deveririam estar aqui.
+   * Precisa ser refatorada da seguinte maneira PApplet
+   * processing e PFont font nao deveririam estar aqui.
    * 
-   * Essas referencias podem ser feitas na fachada da maneira de ela cria o
-   * objetos e referencia ela mesmo.
+   * Essas referencias podem ser feitas na fachada da
+   * maneira de ela cria o objetos e referencia ela mesmo.
    * 
-   * Ai sim livraremos a classe DAO de qualquer referencia ao motor grafico do
-   * processing.
+   * Ai sim livraremos a classe DAO de qualquer referencia
+   * ao motor grafico do processing.
    */
 
   public AmigoDataAccessObjectImpl(PApplet processing, PFont font,
