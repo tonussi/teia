@@ -3,7 +3,7 @@
  */
 package test;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -43,9 +43,8 @@ public class TeiaTest {
   DBConnection dbConnection;
   PFont font;
   PApplet processing;
-  AmigoHomem amigoHomem;
-  Info info;
-  AmigoMulher amigoMulher;
+  Info infoHomem, infoMulher;
+  Amigo amigoHomem, amigoMulher;
 
   private final Logger logger = Logger.getLogger(TeiaTest.class.getName());
 
@@ -54,6 +53,9 @@ public class TeiaTest {
    */
   @Before
   public void setUp() throws Exception {
+
+    processing = new PApplet();
+
     font = processing.createFont("Helvetica", 6, true);
 
     amigos = new ArrayList<Amigo>();
@@ -77,32 +79,21 @@ public class TeiaTest {
 
     for (Info infoAmigo : infoAmigosHomens) {
       amigos.add(new AmigoHomem(processing, infoAmigo));
-
-      logger.info("\n" + "(" + infoAmigo.getUname() + "=" + infoAmigo.getUid()
-          + ")" + ", que e de nacionalidade " + infoAmigo.getOrigem()
-          + ", e do genero " + infoAmigo.getSex() + " tambem eh seu amigo nro "
-          + infoAmigo.getAgerank() + " esta mapeado para os amigos: "
-          + mapeamentoNodular.get(infoAmigo.getUid()));
+      logger.info(infoAmigo.toString());
     }
 
     for (Info infoAmigo : infoAmigosMulheres) {
       amigos.add(new AmigoMulher(processing, infoAmigo));
-
-      logger.info("\n" + "(" + infoAmigo.getUname() + "=" + infoAmigo.getUid()
-          + ")" + ", que e de nacionalidade " + infoAmigo.getOrigem()
-          + ", e do genero " + infoAmigo.getSex() + " tambem eh seu amigo nro "
-          + infoAmigo.getAgerank() + " esta mapeado para os amigos: "
-          + mapeamentoNodular.get(infoAmigo.getUid()));
+      logger.info(infoAmigo.toString());
     }
 
-    info = new Info(processing, font, new BigInteger("1"), "Nome", "Sexo",
-        "Origem", 1);
-    amigoMulher = new AmigoMulher(processing, info);
+    infoHomem = new Info(processing, font, new BigInteger("1318200713"),
+        "Diego Fagundes", "male", "pt_BR", 193);
+    amigoHomem = new AmigoHomem(processing, infoHomem);
 
-    info = new Info(processing, font, new BigInteger("1"), "Nome", "Sexo",
-        "Origem", 1);
-    amigoMulher = new AmigoMulher(processing, info);
-
+    infoMulher = new Info(processing, font, new BigInteger("580905942"),
+        "Erica Mattos", "female", "pt_BR", 227);
+    amigoMulher = new AmigoMulher(processing, infoMulher);
   }
 
   /**
@@ -112,11 +103,24 @@ public class TeiaTest {
   public void tearDown() throws Exception {
     grafo.clear();
     mapeamentoNodular.clear();
+    amigos.clear();
+    infoAmigosHomens.clear();
+    infoAmigosMulheres.clear();
+    dbConnection.close();
   }
 
   @Test
-  public void test() {
-    fail("Not yet implemented");
-
+  public void testSeVerticeTemIdentificadorHomemIgualAoInfoHomem() {
+    for (Vertice vertice : grafo)
+      if (vertice.getIdentificador().equals(new BigInteger("1318200713")))
+        assertEquals(infoHomem.getUid(), vertice.getIdentificador());
   }
+
+  @Test
+  public void testSeVerticeTemIdentificadorMulherIgualAoInfoMulher() {
+    for (Vertice vertice : grafo)
+      if (vertice.getIdentificador().equals(new BigInteger("580905942")))
+        assertEquals(infoMulher.getUid(), vertice.getIdentificador());
+  }
+
 }
