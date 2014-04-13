@@ -14,10 +14,10 @@ public class AmigoMulher extends Amigo {
     processing.translate(local.x, local.y);
 
     processing.fill(255);
-
+    processing.noStroke();
     processing.rect(local.x - 3, local.y, 6, 3);
 
-    processing.stroke(255);
+    processing.stroke(244, 32, 88);
     processing.strokeWeight(2);
     processing.noFill();
 
