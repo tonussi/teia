@@ -17,6 +17,18 @@ import dao.AmigoDataAccessObjectImpl;
 import dao.DBConnection;
 import dao.DBConnectionImpl;
 
+/**
+ * Essa classe cria uma teia de amigos da maneira que
+ * existem relacoes entre os amigos da rede social cada
+ * amigo pode ser homem ou mulher, ser de nascionalidades
+ * diferentes, dentre outras propriedades. Basicamente a
+ * construcao e implementacao dessas propriedades devem
+ * gerar novas classes modelo e devem ser construidas
+ * realizacoes em cima dessas propriedades diferentes
+ * 
+ * 
+ * @author lucastonussi
+ */
 public class Teia extends PApplet {
 
   List<Amigo> amigos;
@@ -30,13 +42,15 @@ public class Teia extends PApplet {
 
   public Teia() {
     /**
-     * Cria uma fonte para escrever as infos dos amigos na rede
+     * Cria uma fonte para escrever as infos dos amigos na
+     * rede
      */
-    font = createFont("Monospace", 6);
+    font = createFont("Helvetica", 10, true);
 
     /**
-     * Cria listagem de amigos todos da rede que receberao informacoes das
-     * especializacoes dentre outras coisas como nodos e arestas
+     * Cria listagem de amigos todos da rede que receberao
+     * informacoes das especializacoes dentre outras coisas
+     * como nodos e arestas
      */
     amigos = new ArrayList<Amigo>();
 
@@ -47,51 +61,51 @@ public class Teia extends PApplet {
         "hung4ro5");
 
     /**
-     * Cria objeto de acesso as informacoes da rede social em questao para
-     * resolver problemas de listagem
+     * Cria objeto de acesso as informacoes da rede social
+     * em questao para resolver problemas de listagem
      */
     amigoDataAccessObject = new AmigoDataAccessObjectImpl(this, font,
         dbConnection);
 
     /**
-     * Cria listagem das infos dos homens na rede para posteriormente relacionar
-     * com as especializacoes de amigos em homens e mulheres
+     * Cria listagem das infos dos homens na rede para
+     * posteriormente relacionar com as especializacoes de
+     * amigos em homens e mulheres
      */
     infoAmigosHomens = new ArrayList<Info>(
         amigoDataAccessObject.listaAmigosPorGenero("male"));
 
     /**
-     * Cria listagem das infos das mulheres na rede para posteriormente
-     * relacionar com as especializacoes de amigos em homens e mulheres
+     * Cria listagem das infos das mulheres na rede para
+     * posteriormente relacionar com as especializacoes de
+     * amigos em homens e mulheres
      */
     infoAmigosMulheres = new ArrayList<Info>(
         amigoDataAccessObject.listaAmigosPorGenero("female"));
 
     /**
-     * Cria lista de relacoes entre os amigos da rede cada nodo tem max(n)
-     * arestas
+     * Cria lista de relacoes entre os amigos da rede cada
+     * nodo tem max(n) arestas
      */
     grafo = new ArrayList<Vertice>(amigoDataAccessObject.listaRelacoes());
-    System.out.println(grafo.toString());
-    System.out.println(grafo.size());
 
     /**
-     * Cria mapeamento direto da tabela de relacoes em um mapeamento hash
+     * Cria mapeamento direto da tabela de relacoes em um
+     * mapeamento hash
      */
     mapeamentoNodular = new HashMap<BigInteger, BigInteger>();
     mapeamentoNodular = amigoDataAccessObject.mapeiaRelacoes();
-    System.out.println(mapeamentoNodular.size());
 
     /**
-     * Processo de imersao pos processamento dos resultados das informacoes dos
-     * amigos do tipo homen
+     * Processo de imersao pos processamento dos resultados
+     * das informacoes dos amigos do tipo homen
      */
     for (Info infoAmigo : infoAmigosHomens)
       amigos.add(new AmigoHomem(this, infoAmigo));
 
     /**
-     * Processo de imersao pos processamento dos resultados das informacoes dos
-     * amigos do tipo mulher
+     * Processo de imersao pos processamento dos resultados
+     * das informacoes dos amigos do tipo mulher
      */
     for (Info infoAmigo : infoAmigosMulheres)
       amigos.add(new AmigoMulher(this, infoAmigo));
@@ -100,20 +114,24 @@ public class Teia extends PApplet {
 
   /**
    * 
-   * @see http://wiki.processing.org/w/Window_Size_and_Full_Screen
+   * @see http://wiki.processing.org/w/
+   *      Window_Size_and_Full_Screen
    * 
-   *      O codigo a seguir cria a possibilidade de voce redimensionar o seu
-   *      canvas onde o processing estara rodando a aplicacao.
+   *      O codigo a seguir cria a possibilidade de voce
+   *      redimensionar o seu canvas onde o processing
+   *      estara rodando a aplicacao.
    *      <code>if (frame != null) frame.setResizable(true);</code>
    * 
    * 
-   * @see https://en.wikipedia.org/wiki/4K_resolution Para saber sobre
+   * @see https ://en.wikipedia.org/wiki/4 K_resolution Para
+   *      saber sobre
    * 
-   *      resolucoes possiveis para tirar grandes shots basta visitar o link
-   *      abaixo e entender mais sobre view port por exemplo
-   *      <code>size(3840, 2160)</code> voce estara com uma resolucao UHD Ultra
-   *      high definition television, aspect ratio de 1.78:1 (16:9) e 8,294,400
-   *      pixels
+   *      resolucoes possiveis para tirar grandes shots
+   *      basta visitar o link abaixo e entender mais sobre
+   *      view port por exemplo
+   *      <code>size(3840, 2160)</code> voce estara com uma
+   *      resolucao UHD Ultra high definition television,
+   *      aspect ratio de 1.78:1 (16:9) e 8,294,400 pixels
    * 
    */
   @Override
@@ -127,11 +145,12 @@ public class Teia extends PApplet {
   }
 
   /**
-   * Mantenha o draw() o mais simples possivel essa funcao faz parte do
-   * processing e ficara rodando os desenhos.
+   * Mantenha o draw() o mais simples possivel essa funcao
+   * faz parte do processing e ficara rodando os desenhos.
    * 
-   * Procure separar em classes especilizadas no desenho que vc quer fazer.
-   * Eliminando ao maximo possivel os condicionais.
+   * Procure separar em classes especilizadas no desenho que
+   * vc quer fazer. Eliminando ao maximo possivel os
+   * condicionais.
    */
   @Override
   public void draw() {
@@ -144,13 +163,14 @@ public class Teia extends PApplet {
   }
 
   /**
-   * Aperte 's' com o aplicativo rodando que voce gerada screenshots dentro do
-   * diretorio <code>/path-to-this-project/pics/...</code>
+   * Aperte 's' com o aplicativo rodando que voce gerada
+   * screenshots dentro do diretorio
+   * <code>/path-to-this-project/pics/...</code>
    */
   @Override
   public void keyPressed() {
     if (key == 's')
-      save("pics/teia" + random(0, 1000) + ".jpg");
+      save("pics/teia" + random(1000) + ".jpg");
   }
 
   /**
