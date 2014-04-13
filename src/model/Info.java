@@ -8,27 +8,25 @@ import processing.core.PFont;
 
 public class Info {
 
-  private String uname, sex, origem;
-  private int agerank;
-  private BigInteger uid;
+  private final String uname, sex, origem;
+  private final int agerank;
+  private final BigInteger uid;
   PApplet processing;
   PFont font;
 
-  public Info(PApplet processing, PFont font, BigInteger uid, String sex,
-      String origem, String uname, int agerank) {
-
-    this.processing = processing;
+  public Info(PApplet processing, PFont font, BigInteger uid, String uname,
+      String sex, String origem, int agerank) {
     this.uname = uname;
     this.sex = sex;
     this.origem = origem;
     this.agerank = agerank;
     this.uid = uid;
+    this.processing = processing;
     this.font = font;
-
   }
 
   public void adicionaInformacao(float x, float y) {
-    processing.fill(255);
+    processing.fill(255, 40);
     processing.textAlign(PConstants.LEFT);
     processing.textFont(font);
     processing.text(toString(), x, y + 20);
@@ -57,7 +55,6 @@ public class Info {
       builder.append(agerank);
       builder.append("\n");
     }
-
     return builder.toString();
   }
 
