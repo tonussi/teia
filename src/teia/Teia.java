@@ -6,7 +6,6 @@ import java.util.List;
 import model.Amigo;
 import model.AmigoHomem;
 import model.AmigoMulher;
-import model.Aresta;
 import model.Info;
 import model.Nodo;
 import processing.core.PApplet;
@@ -20,8 +19,7 @@ public class Teia extends PApplet {
   List<Amigo> amigos;
   List<Info> infoAmigosHomens;
   List<Info> infoAmigosMulheres;
-  List<Aresta> arestas;
-  List<Nodo> nodos;
+  List<Nodo> grafo;
   AmigoDataAccessObjectImpl amigoDataAccessObject;
   DBConnection dbConnection;
   PFont font;
@@ -56,20 +54,20 @@ public class Teia extends PApplet {
      * com as especializacoes de amigos em homens e mulheres
      */
     infoAmigosHomens = new ArrayList<Info>(
-        amigoDataAccessObject.listadeAmigos("male"));
+        amigoDataAccessObject.listaAmigosPorGenero("male"));
 
     /**
      * Cria listagem das infos das mulheres na rede para posteriormente
      * relacionar com as especializacoes de amigos em homens e mulheres
      */
     infoAmigosMulheres = new ArrayList<Info>(
-        amigoDataAccessObject.listadeAmigos("female"));
+        amigoDataAccessObject.listaAmigosPorGenero("female"));
 
     /**
      * Cria lista de relacoes entre os amigos da rede cada nodo tem max(n)
      * arestas
      */
-    nodos = new ArrayList<Nodo>(amigoDataAccessObject.listadeRelacoes());
+    grafo = new ArrayList<Nodo>(amigoDataAccessObject.listaRelacoes());
 
     /**
      * Processo de imersao pos processamento dos resultados das informacoes dos
@@ -90,14 +88,14 @@ public class Teia extends PApplet {
   /**
    * Para saber sobre resolucoes possiveis para tirar grandes shots basta
    * visitar o link abaixo e entender mais sobre view port por exemplo
-   * <code>size(3840 × 2160)</code> voce estara com uma resolucao UHD Ultra high
+   * <code>size(3840, 2160)</code> voce estara com uma resolucao UHD Ultra high
    * definition television, aspect ratio de 1.78:1 (16:9) e 8,294,400 pixels
    * 
    * @see https://en.wikipedia.org/wiki/4K_resolution
    */
   @Override
   public void setup() {
-    size(350, 350);
+    size(800, 450);
     translate(width / 2, height / 2);
   }
 
