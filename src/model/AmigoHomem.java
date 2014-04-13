@@ -14,11 +14,11 @@ public class AmigoHomem extends Amigo {
     processing.translate(local.x, local.y);
 
     processing.fill(255);
-
+    processing.noStroke();
     processing.triangle(local.x, local.y + 3, local.x + 3, local.y,
         local.x - 3, local.y);
 
-    processing.stroke(255);
+    processing.stroke(88, 32, 244);
     processing.strokeWeight(2);
     processing.noFill();
 
