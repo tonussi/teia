@@ -58,4 +58,8 @@ public class Info {
     return builder.toString();
   }
 
+  public BigInteger getUid() {
+    return uid;
+  }
+
 }
