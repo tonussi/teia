@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -103,7 +105,7 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
   }
 
   @Override
-  public List<Info> listadeAmigos(String sex) {
+  public List<Info> listaAmigosPorGenero(String sex) {
 
     List<Info> infos = new ArrayList<Info>();
 
@@ -134,7 +136,38 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
   }
 
   @Override
-  public List<Nodo> listadeRelacoes() {
+  public Map<BigInteger, BigInteger> mapeiaRelacoes() {
+
+    Map<BigInteger, BigInteger> mapeamentoNodular = new HashMap<BigInteger, BigInteger>();
+
+    try {
+
+      connection = dbConnection.connect();
+      statement = connection.createStatement();
+      resultSet = statement.executeQuery("SELECT node1, node2 from relacoes");
+
+      while (resultSet.next())
+        mapeamentoNodular.put(
+            BigInteger.valueOf(Long.valueOf(resultSet.getString(1))),
+            BigInteger.valueOf(Long.valueOf(resultSet.getString(1))));
+
+    } catch (SQLException event) {
+
+      logger.log(Level.SEVERE, event.getMessage(), event);
+
+    } finally {
+
+      dbConnection.close();
+    }
+
+    System.out.println(mapeamentoNodular.toString());
+
+    return mapeamentoNodular;
+
+  }
+
+  @Override
+  public List<Nodo> listaRelacoes() {
 
     List<BigInteger> relacoes = new ArrayList<BigInteger>();
     List<Nodo> nodos = new ArrayList<Nodo>();
@@ -150,8 +183,6 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
       if (resultSet.next())
         agerank = resultSet.getInt(1);
 
-      System.out.println(agerank);
-
       for (int i = agerank; i > 0; i--) {
         resultSet = statement
             .executeQuery("SELECT uid FROM amigos WHERE agerank = " + "'" + i
@@ -159,8 +190,6 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
 
         if (resultSet.next())
           uid = BigInteger.valueOf(Long.valueOf(resultSet.getString(1)));
-
-        System.out.println(uid.toString());
 
         resultSet = statement
             .executeQuery("SELECT node2 FROM relacoes WHERE node1 = " + "'"
@@ -172,7 +201,8 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
 
         nodos.add(new Nodo(processing, uid, relacoes));
 
-        System.out.println("Nodo: " + relacoes.toString());
+        // System.out.println("(Amigo=" + uid + "): tem os seguintes amigos: "
+        // + relacoes.toString());
 
         relacoes.clear();
       }
@@ -190,7 +220,7 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
   }
 
   @Override
-  public int primeiroId() {
+  public int primeiroId(String nomeId, String nomeTabela) {
 
     int id = 0;
 
@@ -198,7 +228,8 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
 
       connection = dbConnection.connect();
       statement = connection.createStatement();
-      resultSet = statement.executeQuery("SELECT oid FROM relacoes LIMIT 1");
+      resultSet = statement.executeQuery("SELECT" + nomeId + " FROM "
+          + nomeTabela + " LIMIT 1");
 
       if (resultSet.next())
         id = resultSet.getInt(1);
