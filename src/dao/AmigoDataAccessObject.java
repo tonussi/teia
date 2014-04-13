@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import model.Info;
-import model.Nodo;
+import model.Vertice;
 
 public interface AmigoDataAccessObject {
 
@@ -15,7 +15,7 @@ public interface AmigoDataAccessObject {
 
   public List<Info> listaAmigosPorGenero(String sex);
 
-  public List<Nodo> listaRelacoes();
+  public List<Vertice> listaRelacoes();
 
   public int primeiroId(String nomeId, String nomeTabela);
 
