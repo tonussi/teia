@@ -7,8 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import model.Amigo;
-import model.AmigoHomem;
-import model.AmigoMulher;
+import model.DesenhistaAmigoDestacado;
+import model.DesenhistaAmigoHomem;
+import model.DesenhistaAmigoMulher;
 import model.Info;
 import model.Vertice;
 import processing.core.PApplet;
@@ -32,8 +33,11 @@ import dao.DBConnectionImpl;
 public class Teia extends PApplet {
 
   List<Amigo> amigos;
-  List<Info> infoAmigosHomens;
-  List<Info> infoAmigosMulheres;
+  List<Info> infosAmigosHomens;
+  List<Info> infosAmigosMulheres;
+  List<DesenhistaAmigoHomem> desenhistasAmigosHomens;
+  List<DesenhistaAmigoMulher> desenhistasAmigosMulheres;
+  List<DesenhistaAmigoDestacado> desenhistasAmigosDestacados;
   List<Vertice> grafo;
   Map<BigInteger, BigInteger> mapeamentoNodular;
   AmigoDataAccessObjectImpl amigoDataAccessObject;
@@ -41,102 +45,120 @@ public class Teia extends PApplet {
   PFont font;
 
   public Teia() {
-    /**
+    /*
      * Cria uma fonte para escrever as infos dos amigos na
      * rede
      */
     font = createFont("Helvetica", 10, true);
 
-    /**
+    /*
      * Cria listagem de amigos todos da rede que receberao
      * informacoes das especializacoes dentre outras coisas
      * como nodos e arestas
      */
     amigos = new ArrayList<Amigo>();
 
-    /**
+    /*
+     * Cria listagem de desenhadores de amigos homens
+     */
+    desenhistasAmigosHomens = new ArrayList<DesenhistaAmigoHomem>();
+
+    /*
+     * Cria listagem de desenhadores de amigos mulheres
+     */
+    desenhistasAmigosMulheres = new ArrayList<DesenhistaAmigoMulher>();
+
+    /*
+     * Cria listagem de desenhadores de amigos destacados do
+     * todo
+     */
+    desenhistasAmigosDestacados = new ArrayList<DesenhistaAmigoDestacado>();
+
+    /*
      * Cria uma conexao com o banco de dados
      */
     dbConnection = new DBConnectionImpl("lucastonussi", "lucastonussi",
         "hung4ro5");
 
-    /**
+    /*
      * Cria objeto de acesso as informacoes da rede social
      * em questao para resolver problemas de listagem
      */
     amigoDataAccessObject = new AmigoDataAccessObjectImpl(this, font,
         dbConnection);
 
-    /**
+    /*
      * Cria listagem das infos dos homens na rede para
      * posteriormente relacionar com as especializacoes de
      * amigos em homens e mulheres
      */
-    infoAmigosHomens = new ArrayList<Info>(
+    infosAmigosHomens = new ArrayList<Info>(
         amigoDataAccessObject.listaAmigosPorGenero("male"));
 
-    /**
+    /*
      * Cria listagem das infos das mulheres na rede para
      * posteriormente relacionar com as especializacoes de
      * amigos em homens e mulheres
      */
-    infoAmigosMulheres = new ArrayList<Info>(
+    infosAmigosMulheres = new ArrayList<Info>(
         amigoDataAccessObject.listaAmigosPorGenero("female"));
 
-    /**
+    /*
      * Cria lista de relacoes entre os amigos da rede cada
      * nodo tem max(n) arestas
      */
     grafo = new ArrayList<Vertice>(amigoDataAccessObject.listaRelacoes());
 
-    /**
+    /*
      * Cria mapeamento direto da tabela de relacoes em um
      * mapeamento hash
      */
     mapeamentoNodular = new HashMap<BigInteger, BigInteger>();
     mapeamentoNodular = amigoDataAccessObject.mapeiaRelacoes();
 
-    /**
+    /*
      * Processo de imersao pos processamento dos resultados
      * das informacoes dos amigos do tipo homen
      */
-    for (Info infoAmigo : infoAmigosHomens)
-      amigos.add(new AmigoHomem(this, infoAmigo));
+    for (Info infoAmigo : infosAmigosHomens)
+      desenhistasAmigosHomens.add(new DesenhistaAmigoHomem(this, infoAmigo));
 
-    /**
+    desenhistasAmigosDestacados.add(new DesenhistaAmigoDestacado(this,
+        new Info(this, font, new BigInteger("893274987234"), "Thiago Rose",
+            "male", "en_US", 44)));
+
+    /*
      * Processo de imersao pos processamento dos resultados
      * das informacoes dos amigos do tipo mulher
      */
-    for (Info infoAmigo : infoAmigosMulheres)
-      amigos.add(new AmigoMulher(this, infoAmigo));
+    for (Info infoAmigo : infosAmigosMulheres)
+      desenhistasAmigosMulheres.add(new DesenhistaAmigoMulher(this, infoAmigo));
 
   }
 
-  /**
+  /*
    * 
    * @see http://wiki.processing.org/w/
-   *      Window_Size_and_Full_Screen
+   * Window_Size_and_Full_Screen
    * 
-   *      O codigo a seguir cria a possibilidade de voce
-   *      redimensionar o seu canvas onde o processing
-   *      estara rodando a aplicacao.
-   *      <code>if (frame != null) frame.setResizable(true);</code>
+   * O codigo a seguir cria a possibilidade de voce
+   * redimensionar o seu canvas onde o processing estara
+   * rodando a aplicacao. <code>if (frame != null)
+   * frame.setResizable(true);</code>
    * 
    * 
    * @see https ://en.wikipedia.org/wiki/4 K_resolution Para
-   *      saber sobre
+   * saber sobre
    * 
-   *      resolucoes possiveis para tirar grandes shots
-   *      basta visitar o link abaixo e entender mais sobre
-   *      view port por exemplo
-   *      <code>size(3840, 2160)</code> voce estara com uma
-   *      resolucao UHD Ultra high definition television,
-   *      aspect ratio de 1.78:1 (16:9) e 8,294,400 pixels
-   * 
+   * resolucoes possiveis para tirar grandes shots basta
+   * visitar o link abaixo e entender mais sobre view port
+   * por exemplo <code>size(3840, 2160)</code> voce estara
+   * com uma resolucao UHD Ultra high definition television,
+   * aspect ratio de 1.78:1 (16:9) e 8,294,400 pixels
    */
   @Override
   public void setup() {
-    size(300, 300);
+    size(1200, 700);
 
     if (frame != null)
       frame.setResizable(true);
@@ -156,10 +178,21 @@ public class Teia extends PApplet {
   public void draw() {
     background(43);
     translate(width / 2, height / 2);
-    for (Amigo amigo : amigos) {
+    for (DesenhistaAmigoHomem amigo : desenhistasAmigosHomens) {
       amigo.display();
       amigo.mova();
     }
+
+    for (DesenhistaAmigoMulher amigo : desenhistasAmigosMulheres) {
+      amigo.display();
+      amigo.mova();
+    }
+
+    for (DesenhistaAmigoDestacado amigo : desenhistasAmigosDestacados) {
+      amigo.display();
+      amigo.mova();
+    }
+
   }
 
   /**
