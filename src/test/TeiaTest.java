@@ -13,8 +13,8 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import model.Amigo;
-import model.AmigoHomem;
-import model.AmigoMulher;
+import model.DesenhistaAmigoHomem;
+import model.DesenhistaAmigoMulher;
 import model.Info;
 import model.Vertice;
 
@@ -78,22 +78,22 @@ public class TeiaTest {
     mapeamentoNodular = amigoDataAccessObject.mapeiaRelacoes();
 
     for (Info infoAmigo : infoAmigosHomens) {
-      amigos.add(new AmigoHomem(processing, infoAmigo));
+      amigos.add(new DesenhistaAmigoHomem(processing, infoAmigo));
       logger.info(infoAmigo.toString());
     }
 
     for (Info infoAmigo : infoAmigosMulheres) {
-      amigos.add(new AmigoMulher(processing, infoAmigo));
+      amigos.add(new DesenhistaAmigoMulher(processing, infoAmigo));
       logger.info(infoAmigo.toString());
     }
 
     infoHomem = new Info(processing, font, new BigInteger("1318200713"),
         "Diego Fagundes", "male", "pt_BR", 193);
-    amigoHomem = new AmigoHomem(processing, infoHomem);
+    amigoHomem = new DesenhistaAmigoHomem(processing, infoHomem);
 
     infoMulher = new Info(processing, font, new BigInteger("580905942"),
         "Erica Mattos", "female", "pt_BR", 227);
-    amigoMulher = new AmigoMulher(processing, infoMulher);
+    amigoMulher = new DesenhistaAmigoMulher(processing, infoMulher);
   }
 
   /**
