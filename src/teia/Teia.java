@@ -148,6 +148,7 @@ public class Teia extends PApplet {
     for (AmigoMulher amigoMulher : amigosMulheres)
       desenhistasAmigosMulheres.add(new DesenhistaAmigoMulher(this, font,
           amigoMulher));
+
   }
 
   /**
@@ -158,7 +159,8 @@ public class Teia extends PApplet {
    *      O codigo a seguir cria a possibilidade de voce
    *      redimensionar o seu canvas onde o processing
    *      estara rodando a aplicacao.
-   *      <code>if (frame != null) frame.setResizable(true);</code>
+   *      <code>if (frame != null)
+   *      frame.setResizable(true);</code>
    * 
    * 
    * @see https ://en.wikipedia.org/wiki/4 K_resolution Para
@@ -194,14 +196,16 @@ public class Teia extends PApplet {
     background(43);
     translate(width / 2, height / 2);
 
-    for (DesenhistaAmigoHomem amigo : desenhistasAmigosHomens) {
-      amigo.display();
-      amigo.mova();
+    for (DesenhistaAmigoHomem desenhista : desenhistasAmigosHomens) {
+      desenhista.display();
+      desenhista.mova();
+      desenhista.escreve();
     }
 
-    for (DesenhistaAmigoMulher amigo : desenhistasAmigosMulheres) {
-      amigo.display();
-      amigo.mova();
+    for (DesenhistaAmigoMulher desenhista : desenhistasAmigosMulheres) {
+      desenhista.display();
+      desenhista.mova();
+      desenhista.escreve();
     }
 
   }
