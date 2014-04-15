@@ -14,8 +14,6 @@ import java.util.logging.Logger;
 
 import model.Info;
 import model.Vertice;
-import processing.core.PApplet;
-import processing.core.PFont;
 
 public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
 
@@ -30,28 +28,8 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
   private final Logger logger = Logger
       .getLogger(AmigoDataAccessObjectImpl.class.getName());
 
-  PApplet processing;
-
-  PFont font;
-
-  /*
-   * Precisa ser refatorada da seguinte maneira PApplet
-   * processing e PFont font nao deveririam estar aqui.
-   * 
-   * Essas referencias podem ser feitas na fachada da
-   * maneira de ela cria o objetos e referencia ela mesmo.
-   * 
-   * Ai sim livraremos a classe DAO de qualquer referencia
-   * ao motor grafico do processing.
-   */
-
-  public AmigoDataAccessObjectImpl(PApplet processing, PFont font,
-      DBConnection dbConnection) {
-
-    this.font = font;
-    this.processing = processing;
+  public AmigoDataAccessObjectImpl(DBConnection dbConnection) {
     this.dbConnection = dbConnection;
-
   }
 
   @Override
@@ -118,11 +96,9 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
               + "'" + sex + "'");
 
       while (resultSet.next())
-        infos
-            .add(new Info(processing, font, BigInteger.valueOf(Long
-                .valueOf(resultSet.getString(1))), resultSet.getString(2),
-                resultSet.getString(3), resultSet.getString(4), resultSet
-                    .getInt(5)));
+        infos.add(new Info(BigInteger.valueOf(Long.valueOf(resultSet
+            .getString(1))), resultSet.getString(2), resultSet.getString(3),
+            resultSet.getString(4), resultSet.getInt(5)));
 
     } catch (SQLException event) {
 
@@ -199,7 +175,7 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
           relacoes
               .add(BigInteger.valueOf(Long.valueOf(resultSet.getString(1))));
 
-        grafo.add(new Vertice(processing, uid, relacoes));
+        grafo.add(new Vertice(uid, relacoes));
 
         System.out.println("(Amigo=" + uid + "): tem os seguintes amigos: "
             + relacoes.toString());
