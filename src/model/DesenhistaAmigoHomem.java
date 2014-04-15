@@ -2,17 +2,17 @@ package model;
 
 import processing.core.PApplet;
 
-public class DesenhistaAmigoHomem extends AmigoHomem implements Desenhador,
-    Movedor {
+public class DesenhistaAmigoHomem implements Desenhador, Movedor {
 
-  VetoresMovimento vetoresMovimento;
+  VetorComposto vetoresMovimento;
+  AmigoHomem amigoHomem;
   PApplet processing;
 
-  public DesenhistaAmigoHomem(PApplet processing, Info info) {
+  public DesenhistaAmigoHomem(PApplet processing, AmigoHomem amigoHomem) {
 
-    super(info);
+    this.amigoHomem = amigoHomem;
     this.processing = processing;
-    this.vetoresMovimento = new VetoresMovimento(this.processing);
+    this.vetoresMovimento = new VetorComposto();
 
   }
 
@@ -23,11 +23,11 @@ public class DesenhistaAmigoHomem extends AmigoHomem implements Desenhador,
 
     /*
      * Desenho: Triangulo
-     * 
+     *
      * Preenchimento: Branco
-     * 
+     *
      * Contorno: Branco
-     * 
+     *
      * Peso do Contorno: 1 pixel wide
      */
     processing.fill(255);
@@ -39,11 +39,11 @@ public class DesenhistaAmigoHomem extends AmigoHomem implements Desenhador,
 
     /*
      * Desenho: Circulo
-     * 
+     *
      * Preenchimento: Vazio
-     * 
+     *
      * Contorno: Azul Escuro
-     * 
+     *
      * Peso do Contorno: 2 pixel wide
      */
     processing.noFill();
@@ -52,7 +52,8 @@ public class DesenhistaAmigoHomem extends AmigoHomem implements Desenhador,
     processing.ellipse(vetoresMovimento.local.x, vetoresMovimento.local.y, 20,
         20);
 
-    info.adicionaInformacao(vetoresMovimento.local.x, vetoresMovimento.local.y);
+    amigoHomem.info.adicionaInformacao(vetoresMovimento.local.x,
+        vetoresMovimento.local.y);
 
     processing.popMatrix();
   }
@@ -62,4 +63,5 @@ public class DesenhistaAmigoHomem extends AmigoHomem implements Desenhador,
     vetoresMovimento.local.add(vetoresMovimento.dir);
     vetoresMovimento.local.add(vetoresMovimento.acel);
   }
+
 }

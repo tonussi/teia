@@ -2,17 +2,18 @@ package model;
 
 import processing.core.PApplet;
 
-public class DesenhistaAmigoDestacado extends AmigoDestacado implements
-    Desenhador, Movedor {
+public class DesenhistaAmigoDestacado implements Desenhador, Movedor {
 
-  VetoresMovimento vetoresMovimento;
+  AmigoDestacado amigoDestacado;
+  VetorComposto vetoresMovimento;
   PApplet processing;
 
-  public DesenhistaAmigoDestacado(PApplet processing, Info info) {
+  public DesenhistaAmigoDestacado(PApplet processing,
+      AmigoDestacado amigoDestacado) {
 
-    super(info);
     this.processing = processing;
-    this.vetoresMovimento = new VetoresMovimento(this.processing);
+    this.amigoDestacado = amigoDestacado;
+    this.vetoresMovimento = new VetorComposto();
 
   }
 
@@ -67,7 +68,8 @@ public class DesenhistaAmigoDestacado extends AmigoDestacado implements
     processing.ellipse(vetoresMovimento.local.x, vetoresMovimento.local.y, 20,
         20);
 
-    info.adicionaInformacao(vetoresMovimento.local.x, vetoresMovimento.local.y);
+    amigoDestacado.info.adicionaInformacao(vetoresMovimento.local.x,
+        vetoresMovimento.local.y);
 
     processing.popMatrix();
   }
@@ -77,4 +79,5 @@ public class DesenhistaAmigoDestacado extends AmigoDestacado implements
     vetoresMovimento.local.add(vetoresMovimento.dir);
     vetoresMovimento.local.add(vetoresMovimento.acel);
   }
+
 }

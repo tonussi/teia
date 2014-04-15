@@ -2,24 +2,24 @@ package model;
 
 import processing.core.PApplet;
 
-public class DesenhistaAmigoMulher extends AmigoMulher implements Desenhador,
-    Movedor {
+public class DesenhistaAmigoMulher implements Desenhador, Movedor {
 
-  VetoresMovimento vetoresMovimento;
+  AmigoMulher amigoMulher;
+  VetorComposto vetorComposto;
   PApplet processing;
 
-  public DesenhistaAmigoMulher(PApplet processing, Info info) {
+  public DesenhistaAmigoMulher(PApplet processing, AmigoMulher amigoMulher) {
 
-    super(info);
     this.processing = processing;
-    this.vetoresMovimento = new VetoresMovimento(this.processing);
+    this.amigoMulher = amigoMulher;
+    this.vetorComposto = new VetorComposto();
 
   }
 
   @Override
   public void display() {
     processing.pushMatrix();
-    processing.translate(vetoresMovimento.local.x, vetoresMovimento.local.y);
+    processing.translate(vetorComposto.local.x, vetorComposto.local.y);
 
     /*
      * Desenho: Retangulo
@@ -33,8 +33,7 @@ public class DesenhistaAmigoMulher extends AmigoMulher implements Desenhador,
     processing.fill(255);
     processing.stroke(255);
     processing.strokeWeight(1);
-    processing.rect(vetoresMovimento.local.x - 3, vetoresMovimento.local.y, 6,
-        3);
+    processing.rect(vetorComposto.local.x - 3, vetorComposto.local.y, 6, 3);
 
     /*
      * Desenho: Circulo
@@ -48,17 +47,18 @@ public class DesenhistaAmigoMulher extends AmigoMulher implements Desenhador,
     processing.noFill();
     processing.strokeWeight(2);
     processing.stroke(244, 32, 88);
-    processing.ellipse(vetoresMovimento.local.x, vetoresMovimento.local.y, 20,
-        20);
+    processing.ellipse(vetorComposto.local.x, vetorComposto.local.y, 20, 20);
 
-    info.adicionaInformacao(vetoresMovimento.local.x, vetoresMovimento.local.y);
+    amigoMulher.info.adicionaInformacao(vetorComposto.local.x,
+        vetorComposto.local.y);
 
     processing.popMatrix();
   }
 
   @Override
   public void mova() {
-    vetoresMovimento.local.add(vetoresMovimento.dir);
-    vetoresMovimento.local.add(vetoresMovimento.acel);
+    vetorComposto.local.add(vetorComposto.dir);
+    vetorComposto.local.add(vetorComposto.acel);
   }
+
 }
