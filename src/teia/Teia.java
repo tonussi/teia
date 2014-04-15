@@ -122,22 +122,27 @@ public class Teia extends PApplet {
     mapeamentoNodular = amigoDataAccessObject.mapeiaRelacoes();
 
     /*
-     * Processo de imersao pos processamento dos resultados
-     * das informacoes dos amigos do tipo homen
+     * Cria lista de informacao para cada amigo tipo homem
      */
     for (Info infoHomem : infosAmigosHomens)
       amigosHomens.add(new AmigoHomem(infoHomem));
 
+    /*
+     * Adiciona cada info ao seu respectivo amigo tipo homem
+     */
     for (AmigoHomem amigoHomem : amigosHomens)
       desenhistasAmigosHomens.add(new DesenhistaAmigoHomem(this, amigoHomem));
 
     /*
-     * Processo de imersao pos processamento dos resultados
-     * das informacoes dos amigos do tipo mulher
+     * Cria lista de informacao para cada amigo tipo mulher
      */
     for (Info infoMulher : infosAmigosMulheres)
       amigosMulheres.add(new AmigoMulher(infoMulher));
 
+    /*
+     * Adiciona cada info ao seu respectivo amigo tipo
+     * mulher
+     */
     for (AmigoMulher amigoMulher : amigosMulheres)
       desenhistasAmigosMulheres
           .add(new DesenhistaAmigoMulher(this, amigoMulher));
