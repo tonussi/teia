@@ -53,14 +53,16 @@ public class Teia extends PApplet {
      * Cria uma fonte para escrever as infos dos amigos na
      * rede
      */
-    font = createFont("Helvetica", 12, true);
+    font = createFont("Helvetica", 8, true);
 
     /*
-     * Cria listagem de amigos todos da rede que receberao
-     * informacoes das especializacoes dentre outras coisas
-     * como nodos e arestas
+     * Cria listagem de amigos tipo homem
      */
     amigosHomens = new ArrayList<AmigoHomem>();
+
+    /*
+     * Cria listagem de amigos tipo mulher
+     */
     amigosMulheres = new ArrayList<AmigoMulher>();
 
     /*
@@ -89,8 +91,7 @@ public class Teia extends PApplet {
      * Cria objeto de acesso as informacoes da rede social
      * em questao para resolver problemas de listagem
      */
-    amigoDataAccessObject = new AmigoDataAccessObjectImpl(this, font,
-        dbConnection);
+    amigoDataAccessObject = new AmigoDataAccessObjectImpl(dbConnection);
 
     /*
      * Cria listagem das infos dos homens na rede para
@@ -131,7 +132,8 @@ public class Teia extends PApplet {
      * Adiciona cada info ao seu respectivo amigo tipo homem
      */
     for (AmigoHomem amigoHomem : amigosHomens)
-      desenhistasAmigosHomens.add(new DesenhistaAmigoHomem(this, amigoHomem));
+      desenhistasAmigosHomens.add(new DesenhistaAmigoHomem(this, font,
+          amigoHomem));
 
     /*
      * Cria lista de informacao para cada amigo tipo mulher
@@ -144,29 +146,30 @@ public class Teia extends PApplet {
      * mulher
      */
     for (AmigoMulher amigoMulher : amigosMulheres)
-      desenhistasAmigosMulheres
-          .add(new DesenhistaAmigoMulher(this, amigoMulher));
+      desenhistasAmigosMulheres.add(new DesenhistaAmigoMulher(this, font,
+          amigoMulher));
   }
 
-  /*
+  /**
    * 
    * @see http://wiki.processing.org/w/
-   * Window_Size_and_Full_Screen
+   *      Window_Size_and_Full_Screen
    * 
-   * O codigo a seguir cria a possibilidade de voce
-   * redimensionar o seu canvas onde o processing estara
-   * rodando a aplicacao. <code>if (frame != null)
-   * frame.setResizable(true);</code>
+   *      O codigo a seguir cria a possibilidade de voce
+   *      redimensionar o seu canvas onde o processing
+   *      estara rodando a aplicacao.
+   *      <code>if (frame != null) frame.setResizable(true);</code>
    * 
    * 
    * @see https ://en.wikipedia.org/wiki/4 K_resolution Para
-   * saber sobre
+   *      saber sobre
    * 
-   * resolucoes possiveis para tirar grandes shots basta
-   * visitar o link abaixo e entender mais sobre view port
-   * por exemplo <code>size(3840, 2160)</code> voce estara
-   * com uma resolucao UHD Ultra high definition television,
-   * aspect ratio de 1.78:1 (16:9) e 8,294,400 pixels
+   *      resolucoes possiveis para tirar grandes shots
+   *      basta visitar o link abaixo e entender mais sobre
+   *      view port por exemplo
+   *      <code>size(3840, 2160)</code> voce estara com uma
+   *      resolucao UHD Ultra high definition television,
+   *      aspect ratio de 1.78:1 (16:9) e 8,294,400 pixels
    */
   @Override
   public void setup() {
