@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import model.Amigo;
+import model.AmigoHomem;
+import model.AmigoMulher;
 import model.DesenhistaAmigoDestacado;
 import model.DesenhistaAmigoHomem;
 import model.DesenhistaAmigoMulher;
@@ -33,6 +35,8 @@ import dao.DBConnectionImpl;
 public class Teia extends PApplet {
 
   List<Amigo> amigos;
+  List<AmigoMulher> amigosMulheres;
+  List<AmigoHomem> amigosHomens;
   List<Info> infosAmigosHomens;
   List<Info> infosAmigosMulheres;
   List<DesenhistaAmigoHomem> desenhistasAmigosHomens;
@@ -49,14 +53,15 @@ public class Teia extends PApplet {
      * Cria uma fonte para escrever as infos dos amigos na
      * rede
      */
-    font = createFont("Helvetica", 10, true);
+    font = createFont("Helvetica", 12, true);
 
     /*
      * Cria listagem de amigos todos da rede que receberao
      * informacoes das especializacoes dentre outras coisas
      * como nodos e arestas
      */
-    amigos = new ArrayList<Amigo>();
+    amigosHomens = new ArrayList<AmigoHomem>();
+    amigosMulheres = new ArrayList<AmigoMulher>();
 
     /*
      * Cria listagem de desenhadores de amigos homens
@@ -120,20 +125,22 @@ public class Teia extends PApplet {
      * Processo de imersao pos processamento dos resultados
      * das informacoes dos amigos do tipo homen
      */
-    for (Info infoAmigo : infosAmigosHomens)
-      desenhistasAmigosHomens.add(new DesenhistaAmigoHomem(this, infoAmigo));
+    for (Info infoHomem : infosAmigosHomens)
+      amigosHomens.add(new AmigoHomem(infoHomem));
 
-    desenhistasAmigosDestacados.add(new DesenhistaAmigoDestacado(this,
-        new Info(this, font, new BigInteger("893274987234"), "Thiago Rose",
-            "male", "en_US", 44)));
+    for (AmigoHomem amigoHomem : amigosHomens)
+      desenhistasAmigosHomens.add(new DesenhistaAmigoHomem(this, amigoHomem));
 
     /*
      * Processo de imersao pos processamento dos resultados
      * das informacoes dos amigos do tipo mulher
      */
-    for (Info infoAmigo : infosAmigosMulheres)
-      desenhistasAmigosMulheres.add(new DesenhistaAmigoMulher(this, infoAmigo));
+    for (Info infoMulher : infosAmigosMulheres)
+      amigosMulheres.add(new AmigoMulher(infoMulher));
 
+    for (AmigoMulher amigoMulher : amigosMulheres)
+      desenhistasAmigosMulheres
+          .add(new DesenhistaAmigoMulher(this, amigoMulher));
   }
 
   /*
@@ -178,17 +185,13 @@ public class Teia extends PApplet {
   public void draw() {
     background(43);
     translate(width / 2, height / 2);
+
     for (DesenhistaAmigoHomem amigo : desenhistasAmigosHomens) {
       amigo.display();
       amigo.mova();
     }
 
     for (DesenhistaAmigoMulher amigo : desenhistasAmigosMulheres) {
-      amigo.display();
-      amigo.mova();
-    }
-
-    for (DesenhistaAmigoDestacado amigo : desenhistasAmigosDestacados) {
       amigo.display();
       amigo.mova();
     }
