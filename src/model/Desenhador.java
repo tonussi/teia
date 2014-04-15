@@ -6,4 +6,6 @@ public interface Desenhador {
 
   public void escreve();
 
+  public void mova();
+
 }
