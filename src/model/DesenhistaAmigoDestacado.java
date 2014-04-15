@@ -38,8 +38,7 @@ public class DesenhistaAmigoDestacado implements Desenhador, Movedor {
     processing.noFill();
     processing.strokeWeight(2);
     processing.stroke(88, 244, 32);
-    processing.ellipse(vetorComposto.local.x, vetorComposto.local.y, 80,
-        80);
+    processing.ellipse(vetorComposto.local.x, vetorComposto.local.y, 80, 80);
 
     /*
      * Desenho: Triangulo
@@ -69,8 +68,7 @@ public class DesenhistaAmigoDestacado implements Desenhador, Movedor {
     processing.noFill();
     processing.strokeWeight(2);
     processing.stroke(88, 32, 244);
-    processing.ellipse(vetorComposto.local.x, vetorComposto.local.y, 20,
-        20);
+    processing.ellipse(vetorComposto.local.x, vetorComposto.local.y, 20, 20);
 
     processing.popMatrix();
   }
@@ -83,11 +81,14 @@ public class DesenhistaAmigoDestacado implements Desenhador, Movedor {
 
   @Override
   public void escreve() {
+    processing.pushMatrix();
+    processing.translate(vetorComposto.local.x, vetorComposto.local.y);
     processing.fill(255, 60);
     processing.textAlign(PConstants.LEFT);
     processing.textFont(font);
-    processing.text(toString(), vetorComposto.local.x + 12,
-        vetorComposto.local.y + 12);
+    processing.text(amigoDestacado.info.toString(), vetorComposto.local.x + 12,
+        vetorComposto.local.y - 12);
+    processing.popMatrix();
   }
 
 }
