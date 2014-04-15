@@ -67,11 +67,14 @@ public class DesenhistaAmigoHomem implements Desenhador, Movedor {
 
   @Override
   public void escreve() {
+    processing.pushMatrix();
+    processing.translate(vetorComposto.local.x, vetorComposto.local.y);
     processing.fill(255, 60);
     processing.textAlign(PConstants.LEFT);
     processing.textFont(font);
-    processing.text(toString(), vetorComposto.local.x + 12,
-        vetorComposto.local.y + 12);
+    processing.text(amigoHomem.info.toString(), vetorComposto.local.x + 12,
+        vetorComposto.local.y - 12);
+    processing.popMatrix();
   }
 
 }
