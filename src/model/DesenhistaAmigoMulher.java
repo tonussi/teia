@@ -4,7 +4,7 @@ import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PFont;
 
-public class DesenhistaAmigoMulher implements Desenhador, Movedor {
+public class DesenhistaAmigoMulher implements Desenhador {
 
   AmigoMulher amigoMulher;
   VetorComposto vetorComposto;

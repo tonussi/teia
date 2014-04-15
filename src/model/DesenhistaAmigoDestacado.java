@@ -4,7 +4,7 @@ import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PFont;
 
-public class DesenhistaAmigoDestacado implements Desenhador, Movedor {
+public class DesenhistaAmigoDestacado implements Desenhador {
 
   AmigoDestacado amigoDestacado;
   VetorComposto vetorComposto;
