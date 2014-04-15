@@ -9,6 +9,7 @@ import java.util.Map;
 import model.Amigo;
 import model.AmigoHomem;
 import model.AmigoMulher;
+import model.Desenhador;
 import model.DesenhistaAmigoDestacado;
 import model.DesenhistaAmigoHomem;
 import model.DesenhistaAmigoMulher;
@@ -42,6 +43,7 @@ public class Teia extends PApplet {
   List<DesenhistaAmigoHomem> desenhistasAmigosHomens;
   List<DesenhistaAmigoMulher> desenhistasAmigosMulheres;
   List<DesenhistaAmigoDestacado> desenhistasAmigosDestacados;
+  List<Desenhador> desenhistasAmigos;
   List<Vertice> grafo;
   Map<BigInteger, BigInteger> mapeamentoNodular;
   AmigoDataAccessObjectImpl amigoDataAccessObject;
@@ -80,6 +82,11 @@ public class Teia extends PApplet {
      * todo
      */
     desenhistasAmigosDestacados = new ArrayList<DesenhistaAmigoDestacado>();
+
+    /*
+     * Cria listagem de desenhadores genericos
+     */
+    desenhistasAmigos = new ArrayList<Desenhador>();
 
     /*
      * Cria uma conexao com o banco de dados
@@ -136,6 +143,13 @@ public class Teia extends PApplet {
           amigoHomem));
 
     /*
+     * Adiciona desenhistas tipo homem a lista de
+     * desenhadores do tipo generico amigo
+     */
+    for (Desenhador desenhistaAmigoHomem : desenhistasAmigosHomens)
+      desenhistasAmigos.add(desenhistaAmigoHomem);
+
+    /*
      * Cria lista de informacao para cada amigo tipo mulher
      */
     for (Info infoMulher : infosAmigosMulheres)
@@ -148,6 +162,13 @@ public class Teia extends PApplet {
     for (AmigoMulher amigoMulher : amigosMulheres)
       desenhistasAmigosMulheres.add(new DesenhistaAmigoMulher(this, font,
           amigoMulher));
+
+    /*
+     * Adiciona desenhistas tipo homem a lista de
+     * desenhadores do tipo generico amigo
+     */
+    for (Desenhador desenhistaAmigoMulher : desenhistasAmigosMulheres)
+      desenhistasAmigos.add(desenhistaAmigoMulher);
 
   }
 
@@ -163,8 +184,9 @@ public class Teia extends PApplet {
    *      frame.setResizable(true);</code>
    * 
    * 
-   * @see https ://en.wikipedia.org/wiki/4 K_resolution Para
-   *      saber sobre
+   * @see https
+   *      ://en.wikipedia.org/wiki/4 K_resolution Para saber
+   *      sobre
    * 
    *      resolucoes possiveis para tirar grandes shots
    *      basta visitar o link abaixo e entender mais sobre
@@ -193,16 +215,12 @@ public class Teia extends PApplet {
    */
   @Override
   public void draw() {
+
     background(43);
+
     translate(width / 2, height / 2);
 
-    for (DesenhistaAmigoHomem desenhista : desenhistasAmigosHomens) {
-      desenhista.display();
-      desenhista.mova();
-      desenhista.escreve();
-    }
-
-    for (DesenhistaAmigoMulher desenhista : desenhistasAmigosMulheres) {
+    for (Desenhador desenhista : desenhistasAmigos) {
       desenhista.display();
       desenhista.mova();
       desenhista.escreve();
