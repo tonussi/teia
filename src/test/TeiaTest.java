@@ -67,7 +67,7 @@ public class TeiaTest {
 
     processing = new PApplet();
 
-    font = processing.createFont("Helvetica", 6, true);
+    font = processing.createFont("Helvetica", 8, true);
 
     amigos = new ArrayList<>();
 
@@ -78,8 +78,7 @@ public class TeiaTest {
     dbConnection = new DBConnectionImpl("lucastonussi", "lucastonussi",
         "hung4ro5");
 
-    amigoDataAccessObject = new AmigoDataAccessObjectImpl(processing, font,
-        dbConnection);
+    amigoDataAccessObject = new AmigoDataAccessObjectImpl(dbConnection);
 
     infoAmigosHomens = new ArrayList<>(
         amigoDataAccessObject.listaAmigosPorGenero("male"));
@@ -93,26 +92,28 @@ public class TeiaTest {
     mapeamentoNodular = amigoDataAccessObject.mapeiaRelacoes();
 
     for (AmigoHomem amigoHomem : amigosHomens) {
-      desenhistasAmigosHomens.add(new DesenhistaAmigoHomem(processing,
+      desenhistasAmigosHomens.add(new DesenhistaAmigoHomem(processing, font,
           amigoHomem));
       logger.info(amigoHomem.toString());
     }
 
     for (AmigoMulher amigoMulher : amigosMulheres) {
-      desenhistasAmigosMulheres.add(new DesenhistaAmigoMulher(processing,
+      desenhistasAmigosMulheres.add(new DesenhistaAmigoMulher(processing, font,
           amigoMulher));
       logger.info(amigoMulher.toString());
     }
 
-    infoHomem = new Info(processing, font, new BigInteger("1318200713"),
-        "Diego Fagundes", "male", "pt_BR", 193);
+    infoHomem = new Info(new BigInteger("1318200713"), "Diego Fagundes",
+        "male", "pt_BR", 193);
     amigoHomem = new AmigoHomem(infoHomem);
-    desenhistaAmigoHomem = new DesenhistaAmigoHomem(processing, amigoHomem);
+    desenhistaAmigoHomem = new DesenhistaAmigoHomem(processing, font,
+        amigoHomem);
 
-    infoMulher = new Info(processing, font, new BigInteger("580905942"),
-        "Erica Mattos", "female", "pt_BR", 227);
+    infoMulher = new Info(new BigInteger("580905942"), "Erica Mattos",
+        "female", "pt_BR", 227);
     amigoMulher = new AmigoMulher(infoMulher);
-    desenhistaAmigoMulher = new DesenhistaAmigoMulher(processing, amigoMulher);
+    desenhistaAmigoMulher = new DesenhistaAmigoMulher(processing, font,
+        amigoMulher);
   }
 
   /**
