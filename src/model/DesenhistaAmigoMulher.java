@@ -1,15 +1,20 @@
 package model;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
+import processing.core.PFont;
 
 public class DesenhistaAmigoMulher implements Desenhador, Movedor {
 
   AmigoMulher amigoMulher;
   VetorComposto vetorComposto;
   PApplet processing;
+  PFont font;
 
-  public DesenhistaAmigoMulher(PApplet processing, AmigoMulher amigoMulher) {
+  public DesenhistaAmigoMulher(PApplet processing, PFont font,
+      AmigoMulher amigoMulher) {
 
+    this.font = font;
     this.processing = processing;
     this.amigoMulher = amigoMulher;
     this.vetorComposto = new VetorComposto();
@@ -49,9 +54,6 @@ public class DesenhistaAmigoMulher implements Desenhador, Movedor {
     processing.stroke(244, 32, 88);
     processing.ellipse(vetorComposto.local.x, vetorComposto.local.y, 20, 20);
 
-    amigoMulher.info.adicionaInformacao(vetorComposto.local.x,
-        vetorComposto.local.y);
-
     processing.popMatrix();
   }
 
@@ -59,6 +61,15 @@ public class DesenhistaAmigoMulher implements Desenhador, Movedor {
   public void mova() {
     vetorComposto.local.add(vetorComposto.dir);
     vetorComposto.local.add(vetorComposto.acel);
+  }
+
+  @Override
+  public void escreve() {
+    processing.fill(255, 60);
+    processing.textAlign(PConstants.LEFT);
+    processing.textFont(font);
+    processing.text(toString(), vetorComposto.local.x + 12,
+        vetorComposto.local.y + 12);
   }
 
 }
