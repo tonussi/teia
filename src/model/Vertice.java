@@ -21,7 +21,7 @@ public class Vertice {
   }
 
   public BigInteger getIdentificador() {
-    return identificador;
+    return this.identificador;
   }
 
 }
