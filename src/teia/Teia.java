@@ -9,14 +9,15 @@ import java.util.Map;
 import model.Amigo;
 import model.AmigoHomem;
 import model.AmigoMulher;
-import model.Desenhador;
-import model.DesenhistaAmigoDestacado;
-import model.DesenhistaAmigoHomem;
-import model.DesenhistaAmigoMulher;
 import model.Info;
 import model.Vertice;
 import processing.core.PApplet;
 import processing.core.PFont;
+import view.DesenhadorEspecializado;
+import view.EspecialistaDesenho;
+import view.EspecialistaMovimento;
+import view.Movedor;
+import view.VetorComposto;
 import dao.AmigoDataAccessObjectImpl;
 import dao.DBConnection;
 import dao.DBConnectionImpl;
@@ -36,14 +37,17 @@ import dao.DBConnectionImpl;
 public class Teia extends PApplet {
 
   List<Amigo> amigos;
+
   List<AmigoMulher> amigosMulheres;
   List<AmigoHomem> amigosHomens;
+
   List<Info> infosAmigosHomens;
   List<Info> infosAmigosMulheres;
-  List<DesenhistaAmigoHomem> desenhistasAmigosHomens;
-  List<DesenhistaAmigoMulher> desenhistasAmigosMulheres;
-  List<DesenhistaAmigoDestacado> desenhistasAmigosDestacados;
-  List<Desenhador> desenhistasAmigos;
+
+  DesenhadorEspecializado especialistaDesenho;
+
+  Movedor especialistaMovimento;
+
   List<Vertice> grafo;
   Map<BigInteger, BigInteger> mapeamentoNodular;
   AmigoDataAccessObjectImpl amigoDataAccessObject;
@@ -68,25 +72,14 @@ public class Teia extends PApplet {
     amigosMulheres = new ArrayList<AmigoMulher>();
 
     /*
-     * Cria listagem de desenhadores de amigos homens
+     * Cria um desenhista especializado em todos os desenhos
      */
-    desenhistasAmigosHomens = new ArrayList<DesenhistaAmigoHomem>();
+    especialistaDesenho = new EspecialistaDesenho(this, font);
 
     /*
-     * Cria listagem de desenhadores de amigos mulheres
+     * Cria um especialista em movimento
      */
-    desenhistasAmigosMulheres = new ArrayList<DesenhistaAmigoMulher>();
-
-    /*
-     * Cria listagem de desenhadores de amigos destacados do
-     * todo
-     */
-    desenhistasAmigosDestacados = new ArrayList<DesenhistaAmigoDestacado>();
-
-    /*
-     * Cria listagem de desenhadores genericos
-     */
-    desenhistasAmigos = new ArrayList<Desenhador>();
+    especialistaMovimento = new EspecialistaMovimento();
 
     /*
      * Cria uma conexao com o banco de dados
@@ -133,42 +126,30 @@ public class Teia extends PApplet {
      * Cria lista de informacao para cada amigo tipo homem
      */
     for (Info infoHomem : infosAmigosHomens)
-      amigosHomens.add(new AmigoHomem(infoHomem));
-
-    /*
-     * Adiciona cada info ao seu respectivo amigo tipo homem
-     */
-    for (AmigoHomem amigoHomem : amigosHomens)
-      desenhistasAmigosHomens.add(new DesenhistaAmigoHomem(this, font,
-          amigoHomem));
-
-    /*
-     * Adiciona desenhistas tipo homem a lista de
-     * desenhadores do tipo generico amigo
-     */
-    for (Desenhador desenhistaAmigoHomem : desenhistasAmigosHomens)
-      desenhistasAmigos.add(desenhistaAmigoHomem);
+      amigosHomens.add(new AmigoHomem(infoHomem, new VetorComposto()));
 
     /*
      * Cria lista de informacao para cada amigo tipo mulher
      */
     for (Info infoMulher : infosAmigosMulheres)
-      amigosMulheres.add(new AmigoMulher(infoMulher));
+      amigosMulheres.add(new AmigoMulher(infoMulher, new VetorComposto()));
 
     /*
-     * Adiciona cada info ao seu respectivo amigo tipo
-     * mulher
+     * Cria lista de amigos
+     */
+    amigos = new ArrayList<Amigo>();
+
+    /*
+     * Preenche lista de amigos com os amigo tipo homem
+     */
+    for (AmigoHomem amigoHomem : amigosHomens)
+      amigos.add(amigoHomem);
+
+    /*
+     * Preenche lista de amigos com os amigo tipo mulher
      */
     for (AmigoMulher amigoMulher : amigosMulheres)
-      desenhistasAmigosMulheres.add(new DesenhistaAmigoMulher(this, font,
-          amigoMulher));
-
-    /*
-     * Adiciona desenhistas tipo homem a lista de
-     * desenhadores do tipo generico amigo
-     */
-    for (Desenhador desenhistaAmigoMulher : desenhistasAmigosMulheres)
-      desenhistasAmigos.add(desenhistaAmigoMulher);
+      amigos.add(amigoMulher);
 
   }
 
@@ -184,9 +165,8 @@ public class Teia extends PApplet {
    *      frame.setResizable(true);</code>
    * 
    * 
-   * @see https
-   *      ://en.wikipedia.org/wiki/4 K_resolution Para saber
-   *      sobre
+   * @see https ://en.wikipedia.org/wiki/4 K_resolution Para
+   *      saber sobre
    * 
    *      resolucoes possiveis para tirar grandes shots
    *      basta visitar o link abaixo e entender mais sobre
@@ -203,6 +183,7 @@ public class Teia extends PApplet {
       frame.setResizable(true);
 
     translate(width / 2, height / 2);
+
   }
 
   /**
@@ -220,10 +201,17 @@ public class Teia extends PApplet {
 
     translate(width / 2, height / 2);
 
-    for (Desenhador desenhista : desenhistasAmigos) {
-      desenhista.display();
-      desenhista.mova();
-      desenhista.escreve();
+    for (AmigoHomem amigoHomem : amigosHomens) {
+      especialistaDesenho.displayHomem(amigoHomem);
+    }
+
+    for (AmigoMulher amigoMulher : amigosMulheres) {
+      especialistaDesenho.displayMulher(amigoMulher);
+    }
+
+    for (Amigo amigo : amigos) {
+      especialistaDesenho.escreva(amigo);
+      especialistaMovimento.combina(amigo.getVetorComposto());
     }
 
   }
