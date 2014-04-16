@@ -60,7 +60,7 @@ public class Teia extends PApplet {
      * Cria uma fonte para escrever as infos dos amigos na
      * rede
      */
-    font = createFont("Helvetica", 8, true);
+    font = createFont("Inconsolata", 18, true);
 
     /*
      * Cria listagem de amigos tipo homem
@@ -142,6 +142,7 @@ public class Teia extends PApplet {
     trabalhadorAmigoHomem = new TrabalhadorAmigoHomem(amigosHomens,
         especialistaDesenho, especialistaMovimento);
     trabalhadorAmigoHomem.start();
+    trabalhadorAmigoHomem.setPriority(1);
 
     /*
      * Inicia threads trabalhadores dos desenhos dos amigos
@@ -150,6 +151,7 @@ public class Teia extends PApplet {
     trabalhadorAmigoMulher = new TrabalhadorAmigoMulher(amigosMulheres,
         especialistaDesenho, especialistaMovimento);
     trabalhadorAmigoMulher.start();
+    trabalhadorAmigoHomem.setPriority(10);
 
   }
 
@@ -179,13 +181,12 @@ public class Teia extends PApplet {
   @Override
   public void setup() {
 
-    size(320, 480);
+    size(800, 450);
 
     if (frame != null)
       frame.setResizable(true);
 
     background(43);
-
     translate(width / 2, height / 2);
 
   }
@@ -203,6 +204,7 @@ public class Teia extends PApplet {
 
     background(43);
     translate(width / 2, height / 2);
+
     trabalhadorAmigoHomem.run();
     trabalhadorAmigoMulher.run();
 
