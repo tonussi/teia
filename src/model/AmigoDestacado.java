@@ -1,9 +1,13 @@
 package model;
 
+import view.VetorComposto;
+
 public class AmigoDestacado extends Amigo {
 
-  public AmigoDestacado(Info info) {
-    super(info);
+  public AmigoDestacado(Info info, VetorComposto vetorComposto) {
+
+    super(info, vetorComposto);
+
   }
 
 }
