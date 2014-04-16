@@ -21,4 +21,6 @@ public interface AmigoDataAccessObject {
 
   public Map<BigInteger, BigInteger> mapeiaRelacoes();
 
+  public List<Info> listaAmigosDestacados();
+
 }
