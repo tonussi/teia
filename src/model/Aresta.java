@@ -2,14 +2,13 @@ package model;
 
 public class Aresta {
 
-  private int comprimento;
-  private int largura;
-  private int forca;
+  int comprimento, forca, valor;
 
-  public Aresta(int comprimento, int largura, int forca) {
+  public Aresta(int comprimento, int forca, int valor) {
+    super();
     this.comprimento = comprimento;
-    this.largura = largura;
     this.forca = forca;
+    this.valor = valor;
   }
 
 }
