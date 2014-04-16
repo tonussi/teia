@@ -23,6 +23,7 @@ public class EspecialistaDesenho implements DesenhadorEspecializado {
   public void displayHomem(AmigoHomem amigoHomem) {
 
     processing.pushMatrix();
+
     processing.translate(amigoHomem.getVetorComposto().local.x,
         amigoHomem.getVetorComposto().local.y);
 
@@ -66,7 +67,9 @@ public class EspecialistaDesenho implements DesenhadorEspecializado {
 
   @Override
   public void displayMulher(AmigoMulher amigoMulher) {
+
     processing.pushMatrix();
+
     processing.translate(amigoMulher.getVetorComposto().local.x,
         amigoMulher.getVetorComposto().local.y);
 
@@ -101,11 +104,14 @@ public class EspecialistaDesenho implements DesenhadorEspecializado {
         amigoMulher.getVetorComposto().local.y, 20, 20);
 
     processing.popMatrix();
+
   }
 
   @Override
   public void displayDestacadoHomem(AmigoHomem amigoHomem) {
+
     processing.pushMatrix();
+
     processing.translate(amigoHomem.getVetorComposto().local.x,
         amigoHomem.getVetorComposto().local.y);
 
@@ -159,11 +165,14 @@ public class EspecialistaDesenho implements DesenhadorEspecializado {
         amigoHomem.getVetorComposto().local.y, 20, 20);
 
     processing.popMatrix();
+
   }
 
   @Override
   public void displayDestacadoMulher(AmigoMulher amigoMulher) {
+
     processing.pushMatrix();
+
     processing.translate(amigoMulher.getVetorComposto().local.x,
         amigoMulher.getVetorComposto().local.y);
 
@@ -218,7 +227,9 @@ public class EspecialistaDesenho implements DesenhadorEspecializado {
 
   @Override
   public void escreva(Amigo amigo) {
+
     processing.pushMatrix();
+
     processing.translate(amigo.getVetorComposto().local.x,
         amigo.getVetorComposto().local.y);
     processing.fill(255, 60);
@@ -227,6 +238,7 @@ public class EspecialistaDesenho implements DesenhadorEspecializado {
     processing
         .text(amigo.getInfo().toString(), amigo.getVetorComposto().local.x,
             amigo.getVetorComposto().local.y + 22);
+
     processing.popMatrix();
 
   }
