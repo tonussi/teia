@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import model.Amigo;
 import model.AmigoHomem;
 import model.AmigoMulher;
 import model.Info;
@@ -17,6 +16,8 @@ import view.DesenhadorEspecializado;
 import view.EspecialistaDesenho;
 import view.EspecialistaMovimento;
 import view.Movedor;
+import view.TrabalhadorAmigoHomem;
+import view.TrabalhadorAmigoMulher;
 import view.VetorComposto;
 import dao.AmigoDataAccessObjectImpl;
 import dao.DBConnection;
@@ -36,8 +37,6 @@ import dao.DBConnectionImpl;
  */
 public class Teia extends PApplet {
 
-  List<Amigo> amigos;
-
   List<AmigoMulher> amigosMulheres;
   List<AmigoHomem> amigosHomens;
 
@@ -45,7 +44,6 @@ public class Teia extends PApplet {
   List<Info> infosAmigosMulheres;
 
   DesenhadorEspecializado especialistaDesenho;
-
   Movedor especialistaMovimento;
 
   List<Vertice> grafo;
@@ -53,6 +51,9 @@ public class Teia extends PApplet {
   AmigoDataAccessObjectImpl amigoDataAccessObject;
   DBConnection dbConnection;
   PFont font;
+
+  TrabalhadorAmigoHomem trabalhadorAmigoHomem;
+  TrabalhadorAmigoMulher trabalhadorAmigoMulher;
 
   public Teia() {
     /*
@@ -135,21 +136,20 @@ public class Teia extends PApplet {
       amigosMulheres.add(new AmigoMulher(infoMulher, new VetorComposto()));
 
     /*
-     * Cria lista de amigos
+     * Inicia threads trabalhadores dos desenhos dos amigos
+     * tipo homem
      */
-    amigos = new ArrayList<Amigo>();
+    trabalhadorAmigoHomem = new TrabalhadorAmigoHomem(amigosHomens,
+        especialistaDesenho, especialistaMovimento);
+    trabalhadorAmigoHomem.start();
 
     /*
-     * Preenche lista de amigos com os amigo tipo homem
+     * Inicia threads trabalhadores dos desenhos dos amigos
+     * tipo mulher
      */
-    for (AmigoHomem amigoHomem : amigosHomens)
-      amigos.add(amigoHomem);
-
-    /*
-     * Preenche lista de amigos com os amigo tipo mulher
-     */
-    for (AmigoMulher amigoMulher : amigosMulheres)
-      amigos.add(amigoMulher);
+    trabalhadorAmigoMulher = new TrabalhadorAmigoMulher(amigosMulheres,
+        especialistaDesenho, especialistaMovimento);
+    trabalhadorAmigoMulher.start();
 
   }
 
@@ -165,8 +165,9 @@ public class Teia extends PApplet {
    *      frame.setResizable(true);</code>
    * 
    * 
-   * @see https ://en.wikipedia.org/wiki/4 K_resolution Para
-   *      saber sobre
+   * @see https
+   *      ://en.wikipedia.org/wiki/4 K_resolution Para saber
+   *      sobre
    * 
    *      resolucoes possiveis para tirar grandes shots
    *      basta visitar o link abaixo e entender mais sobre
@@ -177,10 +178,13 @@ public class Teia extends PApplet {
    */
   @Override
   public void setup() {
-    size(1200, 700);
+
+    size(320, 480);
 
     if (frame != null)
       frame.setResizable(true);
+
+    background(43);
 
     translate(width / 2, height / 2);
 
@@ -198,21 +202,9 @@ public class Teia extends PApplet {
   public void draw() {
 
     background(43);
-
     translate(width / 2, height / 2);
-
-    for (AmigoHomem amigoHomem : amigosHomens) {
-      especialistaDesenho.displayHomem(amigoHomem);
-    }
-
-    for (AmigoMulher amigoMulher : amigosMulheres) {
-      especialistaDesenho.displayMulher(amigoMulher);
-    }
-
-    for (Amigo amigo : amigos) {
-      especialistaDesenho.escreva(amigo);
-      especialistaMovimento.combina(amigo.getVetorComposto());
-    }
+    trabalhadorAmigoHomem.run();
+    trabalhadorAmigoMulher.run();
 
   }
 
@@ -224,7 +216,7 @@ public class Teia extends PApplet {
   @Override
   public void keyPressed() {
     if (key == 's')
-      save("pics/teia" + random(1000) + ".jpg");
+      save("pics/teia" + (this.frameCount - this.random(400, 1000)) + ".jpg");
   }
 
   /**
