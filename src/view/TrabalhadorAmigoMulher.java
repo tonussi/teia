@@ -22,7 +22,7 @@ public class TrabalhadorAmigoMulher extends Thread {
     try {
       for (AmigoMulher amigoMulher : amigosMulheres) {
         especialistaDesenho.displayMulher(amigoMulher);
-        especialistaDesenho.escreva(amigoMulher);
+        especialistaDesenho.escrevaInfoAmigoMulher(amigoMulher);
         especialistaMovimento.combina(amigoMulher.getVetorComposto());
       }
     } catch (Exception e) {
