@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import model.AmigoDestacado;
 import model.AmigoHomem;
 import model.AmigoMulher;
 import model.Info;
@@ -16,6 +17,7 @@ import view.DesenhadorEspecializado;
 import view.EspecialistaDesenho;
 import view.EspecialistaMovimento;
 import view.Movedor;
+import view.TrabalhadorAmigoDestacado;
 import view.TrabalhadorAmigoHomem;
 import view.TrabalhadorAmigoMulher;
 import view.VetorComposto;
@@ -39,9 +41,11 @@ public class Teia extends PApplet {
 
   List<AmigoMulher> amigosMulheres;
   List<AmigoHomem> amigosHomens;
+  List<AmigoDestacado> amigosDestacados;
 
   List<Info> infosAmigosHomens;
   List<Info> infosAmigosMulheres;
+  List<Info> infosAmigosDestacados;
 
   DesenhadorEspecializado especialistaDesenho;
   Movedor especialistaMovimento;
@@ -54,13 +58,14 @@ public class Teia extends PApplet {
 
   TrabalhadorAmigoHomem trabalhadorAmigoHomem;
   TrabalhadorAmigoMulher trabalhadorAmigoMulher;
+  TrabalhadorAmigoDestacado trabalhadorAmigoDestacado;
 
   public Teia() {
     /*
      * Cria uma fonte para escrever as infos dos amigos na
      * rede
      */
-    font = createFont("Inconsolata", 18, true);
+    font = createFont("Helvetica", 8, true);
 
     /*
      * Cria listagem de amigos tipo homem
@@ -71,6 +76,17 @@ public class Teia extends PApplet {
      * Cria listagem de amigos tipo mulher
      */
     amigosMulheres = new ArrayList<AmigoMulher>();
+
+    /*
+     * Cria listagem de amigos tipo mulher
+     */
+    amigosDestacados = new ArrayList<AmigoDestacado>();
+
+    /*
+     * Cria listagem de amigos destacados (homens ou
+     * mulheres)
+     */
+    infosAmigosDestacados = new ArrayList<Info>();
 
     /*
      * Cria um desenhista especializado em todos os desenhos
@@ -111,6 +127,13 @@ public class Teia extends PApplet {
         amigoDataAccessObject.listaAmigosPorGenero("female"));
 
     /*
+     * Cris listagem das infos de amigos destacados baseado
+     * em nenhuma regra podem vir homens ou mulhers.
+     */
+    infosAmigosDestacados = new ArrayList<Info>(
+        amigoDataAccessObject.listaAmigosDestacados());
+
+    /*
      * Cria lista de relacoes entre os amigos da rede cada
      * nodo tem max(n) arestas
      */
@@ -121,6 +144,10 @@ public class Teia extends PApplet {
      * mapeamento hash
      */
     mapeamentoNodular = new HashMap<BigInteger, BigInteger>();
+
+    /*
+     * Preenche o mapeamento nodular com dados das relacoes
+     */
     mapeamentoNodular = amigoDataAccessObject.mapeiaRelacoes();
 
     /*
@@ -136,13 +163,20 @@ public class Teia extends PApplet {
       amigosMulheres.add(new AmigoMulher(infoMulher, new VetorComposto()));
 
     /*
+     * Cria lista de informacao para cada amigo tipo
+     * destacado
+     */
+    for (Info infoDestacado : infosAmigosDestacados)
+      amigosDestacados.add(new AmigoDestacado(infoDestacado,
+          new VetorComposto()));
+
+    /*
      * Inicia threads trabalhadores dos desenhos dos amigos
      * tipo homem
      */
     trabalhadorAmigoHomem = new TrabalhadorAmigoHomem(amigosHomens,
         especialistaDesenho, especialistaMovimento);
     trabalhadorAmigoHomem.start();
-    trabalhadorAmigoHomem.setPriority(1);
 
     /*
      * Inicia threads trabalhadores dos desenhos dos amigos
@@ -150,9 +184,17 @@ public class Teia extends PApplet {
      */
     trabalhadorAmigoMulher = new TrabalhadorAmigoMulher(amigosMulheres,
         especialistaDesenho, especialistaMovimento);
+    trabalhadorAmigoMulher.setPriority(10);
     trabalhadorAmigoMulher.start();
-    trabalhadorAmigoHomem.setPriority(10);
 
+    /*
+     * Inicia threads trabalhadores dos desenhos dos amigos
+     * tipo mulher
+     */
+    trabalhadorAmigoDestacado = new TrabalhadorAmigoDestacado(amigosDestacados,
+        especialistaDesenho, especialistaMovimento);
+    trabalhadorAmigoDestacado.setPriority(4);
+    trabalhadorAmigoDestacado.start();
   }
 
   /**
@@ -167,9 +209,8 @@ public class Teia extends PApplet {
    *      frame.setResizable(true);</code>
    * 
    * 
-   * @see https
-   *      ://en.wikipedia.org/wiki/4 K_resolution Para saber
-   *      sobre
+   * @see https ://en.wikipedia.org/wiki/4 K_resolution Para
+   *      saber sobre
    * 
    *      resolucoes possiveis para tirar grandes shots
    *      basta visitar o link abaixo e entender mais sobre
@@ -186,8 +227,9 @@ public class Teia extends PApplet {
     if (frame != null)
       frame.setResizable(true);
 
-    background(43);
     translate(width / 2, height / 2);
+
+    background(43);
 
   }
 
@@ -203,11 +245,14 @@ public class Teia extends PApplet {
   public void draw() {
 
     background(43);
+
     translate(width / 2, height / 2);
 
     trabalhadorAmigoHomem.run();
+
     trabalhadorAmigoMulher.run();
 
+    trabalhadorAmigoDestacado.run();
   }
 
   /**
@@ -218,7 +263,7 @@ public class Teia extends PApplet {
   @Override
   public void keyPressed() {
     if (key == 's')
-      save("pics/teia" + (this.frameCount - this.random(400, 1000)) + ".jpg");
+      save("pics/teia" + (this.frameCount - this.random(1000)) + ".jpg");
   }
 
   /**
