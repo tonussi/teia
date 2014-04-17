@@ -1,9 +1,8 @@
 package view;
 
-import model.Amigo;
+import model.AmigoDestacado;
 import model.AmigoHomem;
 import model.AmigoMulher;
-
 
 public interface DesenhadorEspecializado {
 
@@ -11,10 +10,12 @@ public interface DesenhadorEspecializado {
 
   public void displayMulher(AmigoMulher amigoMulher);
 
-  public void displayDestacadoHomem(AmigoHomem amigoHomem);
+  public void escrevaInfoAmigoHomem(AmigoHomem amigoHomem);
 
-  public void displayDestacadoMulher(AmigoMulher amigoMulher);
+  public void escrevaInfoAmigoMulher(AmigoMulher amigoMulher);
 
-  public void escreva(Amigo amigo);
+  public void escrevaInfoAmigoDestacado(AmigoDestacado amigoDestacado);
+
+  public void displayDestacado(AmigoDestacado amigoDestacado);
 
 }
