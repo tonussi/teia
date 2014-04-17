@@ -196,6 +196,7 @@ public class EspecialistaDesenho implements DesenhadorEspecializado {
 
   @Override
   public void escrevaInfoAmigoDestacado(AmigoDestacado amigoDestacado) {
+
     processing.pushMatrix();
     processing.translate(amigoDestacado.getVetorComposto().local.x,
         amigoDestacado.getVetorComposto().local.y);
