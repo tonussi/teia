@@ -8,10 +8,10 @@ public class TrabalhadorAmigoHomem extends Thread {
 
   List<AmigoHomem> amigosHomens;
   DesenhadorEspecializado especialistaDesenho;
-  Movedor especialistaMovimento;
+  MovedorEspecializado especialistaMovimento;
 
   public TrabalhadorAmigoHomem(List<AmigoHomem> amigosHomens,
-      DesenhadorEspecializado especialistaDesenho, Movedor especialistaMovimento) {
+      DesenhadorEspecializado especialistaDesenho, MovedorEspecializado especialistaMovimento) {
     this.amigosHomens = amigosHomens;
     this.especialistaDesenho = especialistaDesenho;
     this.especialistaMovimento = especialistaMovimento;

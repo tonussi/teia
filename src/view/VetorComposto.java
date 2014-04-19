@@ -8,11 +8,11 @@ public class VetorComposto {
 
   public VetorComposto() {
 
-    local = PVector.random2D();
+    local = new PVector(0, 0);
 
     dir = PVector.random2D();
 
-    acel = PVector.random2D();
+    acel = new PVector(34e-3F, 12e-2F);
 
   }
 
