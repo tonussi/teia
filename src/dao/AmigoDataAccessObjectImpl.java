@@ -36,7 +36,7 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
     try {
       connection = dbConnection.connect();
       statement = connection.createStatement();
-      resultSet = statement.executeQuery("SELECT COUNT(*) from amigos");
+      resultSet = statement.executeQuery("select count(*) from amigos");
       if (resultSet.next())
         quantidadeAmigos = resultSet.getInt(1);
     } catch (SQLException event) {
@@ -55,7 +55,7 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
       connection = dbConnection.connect();
       statement = connection.createStatement();
       resultSet = statement
-          .executeQuery("SELECT uid, node1, node2 FROM amigos INNER JOIN relacoes ON amigos.uid = relacoes.node1");
+          .executeQuery("select uid, node1, node2 from amigos inner join relacoes on amigos.uid = relacoes.node1");
       while (resultSet.next())
         System.out.println(resultSet.getString(1) + resultSet.getString(2)
             + resultSet.getString(3));
@@ -76,7 +76,7 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
       connection = dbConnection.connect();
       statement = connection.createStatement();
       resultSet = statement
-          .executeQuery("SELECT uid, uname, sex, locale, agerank FROM amigos where agerank < 10");
+          .executeQuery("select uid, uname, sex, locale, agerank from amigos where agerank > 220");
       while (resultSet.next())
         infos.add(new Info(BigInteger.valueOf(Long.valueOf(resultSet
             .getString(1))), resultSet.getString(2), resultSet.getString(3),
@@ -99,7 +99,7 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
       connection = dbConnection.connect();
       statement = connection.createStatement();
       resultSet = statement
-          .executeQuery("SELECT uid, uname, sex, locale, agerank FROM amigos where agerank < 300 AND sex = "
+          .executeQuery("select uid, uname, sex, locale, agerank from amigos where agerank < 300 AND sex = "
               + "'" + sex + "'");
       while (resultSet.next())
         infos.add(new Info(BigInteger.valueOf(Long.valueOf(resultSet
@@ -122,7 +122,7 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
     try {
       connection = dbConnection.connect();
       statement = connection.createStatement();
-      resultSet = statement.executeQuery("SELECT node1, node2 from relacoes");
+      resultSet = statement.executeQuery("select node1, node2 from relacoes");
       while (resultSet.next())
         mapeamentoNodular.put(
             BigInteger.valueOf(Long.valueOf(resultSet.getString(1))),
@@ -148,17 +148,17 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
     try {
       connection = dbConnection.connect();
       statement = connection.createStatement();
-      resultSet = statement.executeQuery("SELECT COUNT(*) from amigos");
+      resultSet = statement.executeQuery("select count(*) from amigos");
       if (resultSet.next())
         agerank = resultSet.getInt(1);
       for (int i = agerank; i > 0; i--) {
         resultSet = statement
-            .executeQuery("SELECT uid FROM amigos WHERE agerank = " + "'" + i
+            .executeQuery("select uid from amigos where agerank = " + "'" + i
                 + "'");
         if (resultSet.next())
           uid = BigInteger.valueOf(Long.valueOf(resultSet.getString(1)));
         resultSet = statement
-            .executeQuery("SELECT node2 FROM relacoes WHERE node1 = " + "'"
+            .executeQuery("select node2 from relacoes where node1 = " + "'"
                 + uid + "'");
         while (resultSet.next())
           relacoes
@@ -185,7 +185,7 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
     try {
       connection = dbConnection.connect();
       statement = connection.createStatement();
-      resultSet = statement.executeQuery("SELECT" + nomeId + " FROM "
+      resultSet = statement.executeQuery("select" + nomeId + " from "
           + nomeTabela + " LIMIT 1");
       if (resultSet.next())
         id = resultSet.getInt(1);
