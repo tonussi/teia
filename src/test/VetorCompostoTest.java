@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,46 +12,40 @@ import processing.core.PVector;
 
 public class VetorCompostoTest {
 
-  PVector local, dir, acel, testVector;
-  String localLabel, dirLabel, acelLabel;
+  PVector local, dir, acel, test, empty;
   Map<String, PVector> vectors;
 
   @Before
   public void setUp() throws Exception {
 
     vectors = new HashMap<String, PVector>();
+    local = new PVector(1.4e-3F, 3e-3F);
+    dir = new PVector(1e-3F, 6e-3F);
+    acel = new PVector(1.2e-3F, 1.2e-3F);
+    test = new PVector(1.4e-3F + 1e-3F, 3e-3F + 6e-3F);
+    empty = new PVector();
 
-    local = PVector.random2D();
-    dir = PVector.random2D();
-    acel = PVector.random2D();
+    vectors.put("local", local);
+    vectors.put("acel", acel);
+    vectors.put("dir", dir);
 
-    localLabel = "localLabel";
-    dirLabel = "dirLabel";
-    acelLabel = "acelLabel";
-
-    vectors.put("localLabel", local);
-    vectors.put("dirLabel", dir);
-    vectors.put("acelLabel", acel);
-
-    testVector = vectors.get(localLabel);
-
-    vectors.remove(dirLabel);
-
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    vectors.clear();
   }
 
   @Test
   public void testQuandoForAdicionadoNovoVetor() {
-    assertEquals(testVector, vectors.get(localLabel));
+    vectors.put("local", local);
+    assertEquals(local, vectors.get("local"));
   }
 
   @Test
   public void testQuandoForRemovidoPeloLabel() {
-    assertEquals(vectors.get(dirLabel), null);
+    vectors.remove("dir");
+    assertEquals(vectors.get("dir"), null);
   }
 
+  @Test
+  public void testQuandoForTrabalhadoPeloNome() {
+    vectors.get("local").add(vectors.get("dir"));
+    assertEquals(test, vectors.get("local"));
+  }
 }
