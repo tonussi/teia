@@ -2,6 +2,10 @@ package view;
 
 public interface Movedor {
 
-  void combina(VetorComposto vetorComposto);
+  public void combina(VetorComposto vets);
+
+  public void formacaoNumeroUm(VetorComposto vets);
+
+  public float angulo(VetorComposto vets);
 
 }
