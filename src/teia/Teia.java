@@ -13,7 +13,7 @@ import model.Info;
 import model.Vertice;
 import processing.core.PApplet;
 import processing.core.PFont;
-import view.DesenhadorEspecializado;
+import view.Desenhador;
 import view.EspecialistaDesenho;
 import view.EspecialistaMovimento;
 import view.Movedor;
@@ -47,7 +47,7 @@ public class Teia extends PApplet {
   List<Info> infosAmigosMulheres;
   List<Info> infosAmigosDestacados;
 
-  DesenhadorEspecializado especialistaDesenho;
+  Desenhador especialistaDesenho;
   Movedor especialistaMovimento;
 
   List<Vertice> grafo;
