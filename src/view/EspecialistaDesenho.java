@@ -4,10 +4,9 @@ import model.AmigoDestacado;
 import model.AmigoHomem;
 import model.AmigoMulher;
 import processing.core.PApplet;
-import processing.core.PConstants;
 import processing.core.PFont;
 
-public class EspecialistaDesenho implements DesenhadorEspecializado {
+public class EspecialistaDesenho implements Desenhador {
 
   PApplet processing;
   PFont font;
@@ -123,7 +122,7 @@ public class EspecialistaDesenho implements DesenhadorEspecializado {
     processing.strokeWeight(2);
     processing.stroke(88, 244, 32);
     processing.ellipse(amigoDestacado.getVetorComposto().local.x,
-        amigoDestacado.getVetorComposto().local.y, 80, 80);
+        amigoDestacado.getVetorComposto().local.y, 50, 50);
 
     /*
      * Desenho: Triangulo
@@ -169,7 +168,6 @@ public class EspecialistaDesenho implements DesenhadorEspecializado {
     processing.translate(amigoHomem.getVetorComposto().local.x,
         amigoHomem.getVetorComposto().local.y);
     processing.fill(255, 60);
-    processing.textAlign(PConstants.LEFT);
     processing.textFont(font);
     processing.text(amigoHomem.getInfo().toString(),
         amigoHomem.getVetorComposto().local.x,
@@ -185,7 +183,6 @@ public class EspecialistaDesenho implements DesenhadorEspecializado {
     processing.translate(amigoMulher.getVetorComposto().local.x,
         amigoMulher.getVetorComposto().local.y);
     processing.fill(255, 60);
-    processing.textAlign(PConstants.LEFT);
     processing.textFont(font);
     processing.text(amigoMulher.getInfo().toString(),
         amigoMulher.getVetorComposto().local.x,
@@ -201,7 +198,6 @@ public class EspecialistaDesenho implements DesenhadorEspecializado {
     processing.translate(amigoDestacado.getVetorComposto().local.x,
         amigoDestacado.getVetorComposto().local.y);
     processing.fill(255, 60);
-    processing.textAlign(PConstants.LEFT);
     processing.textFont(font);
     processing.text(amigoDestacado.getInfo().toString(),
         amigoDestacado.getVetorComposto().local.x,
