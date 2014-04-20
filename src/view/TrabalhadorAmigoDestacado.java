@@ -7,11 +7,11 @@ import model.AmigoDestacado;
 public class TrabalhadorAmigoDestacado extends Thread {
 
   List<AmigoDestacado> amigosHomens;
-  DesenhadorEspecializado especialistaDesenho;
-  MovedorEspecializado especialistaMovimento;
+  Desenhador especialistaDesenho;
+  Movedor especialistaMovimento;
 
   public TrabalhadorAmigoDestacado(List<AmigoDestacado> amigosHomens,
-      DesenhadorEspecializado especialistaDesenho, MovedorEspecializado especialistaMovimento) {
+      Desenhador especialistaDesenho, Movedor especialistaMovimento) {
     this.amigosHomens = amigosHomens;
     this.especialistaDesenho = especialistaDesenho;
     this.especialistaMovimento = especialistaMovimento;
