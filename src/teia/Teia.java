@@ -33,8 +33,8 @@ import dao.DBConnectionImpl;
  * construcao e implementacao dessas propriedades devem
  * gerar novas classes modelo e devem ser construidas
  * realizacoes em cima dessas propriedades diferentes
- * 
- * 
+ *
+ *
  * @author lucastonussi
  */
 public class Teia extends PApplet {
@@ -198,20 +198,20 @@ public class Teia extends PApplet {
   }
 
   /**
-   * 
+   *
    * @see http://wiki.processing.org/w/
    *      Window_Size_and_Full_Screen
-   * 
+   *
    *      O codigo a seguir cria a possibilidade de voce
    *      redimensionar o seu canvas onde o processing
    *      estara rodando a aplicacao.
    *      <code>if (frame != null)
    *      frame.setResizable(true);</code>
-   * 
-   * 
+   *
+   *
    * @see https ://en.wikipedia.org/wiki/4 K_resolution Para
    *      saber sobre
-   * 
+   *
    *      resolucoes possiveis para tirar grandes shots
    *      basta visitar o link abaixo e entender mais sobre
    *      view port por exemplo
@@ -236,7 +236,7 @@ public class Teia extends PApplet {
   /**
    * Mantenha o draw() o mais simples possivel essa funcao
    * faz parte do processing e ficara rodando os desenhos.
-   * 
+   *
    * Procure separar em classes especilizadas no desenho que
    * vc quer fazer. Eliminando ao maximo possivel os
    * condicionais.
@@ -263,12 +263,12 @@ public class Teia extends PApplet {
   @Override
   public void keyPressed() {
     if (key == 's')
-      save("pics/teia" + (this.frameCount - this.random(1000)) + ".jpg");
+      saveFrame("data/pics/teia-######.png");
   }
 
   /**
    * Chamada principal do software
-   * 
+   *
    * @param _args
    */
   public static void main(String _args[]) {
