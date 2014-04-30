@@ -24,6 +24,7 @@ import org.junit.Test;
 
 import processing.core.PApplet;
 import processing.core.PFont;
+import processing.core.PVector;
 import view.VetorComposto;
 import dao.AmigoDataAccessObjectImpl;
 import dao.DBConnection;
@@ -61,7 +62,8 @@ public class TeiaTest {
 
     processing = new PApplet();
 
-    vetorComposto = new VetorComposto();
+    vetorComposto = new VetorComposto(PVector.random2D(), PVector.random2D(),
+        PVector.random2D());
 
     font = processing.createFont("Helvetica", 8, true);
 
@@ -77,10 +79,10 @@ public class TeiaTest {
     amigoDataAccessObject = new AmigoDataAccessObjectImpl(dbConnection);
 
     infoAmigosHomens = new ArrayList<>(
-        amigoDataAccessObject.listaAmigosPorGenero("male"));
+        amigoDataAccessObject.listaAmigosPorGeneroEAgerank("male", 100));
 
     infoAmigosMulheres = new ArrayList<>(
-        amigoDataAccessObject.listaAmigosPorGenero("female"));
+        amigoDataAccessObject.listaAmigosPorGeneroEAgerank("female", 100));
 
     grafo = new ArrayList<Vertice>(amigoDataAccessObject.listaRelacoes());
 
