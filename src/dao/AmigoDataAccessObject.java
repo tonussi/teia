@@ -13,7 +13,7 @@ public interface AmigoDataAccessObject {
 
   public void comparaTabelas();
 
-  public List<Info> listaAmigosPorGenero(String sex);
+  public List<Info> listaAmigosPorGeneroEAgerank(String sex, int agerank);
 
   public List<Vertice> listaRelacoes();
 
