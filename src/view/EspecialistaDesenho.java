@@ -12,18 +12,16 @@ public class EspecialistaDesenho implements Desenhador {
   PFont font;
 
   public EspecialistaDesenho(PApplet processing, PFont font) {
-
     this.processing = processing;
     this.font = font;
-
   }
 
   @Override
   public void displayHomem(AmigoHomem amigoHomem) {
 
     processing.pushMatrix();
-    processing.translate(amigoHomem.getVetorComposto().local.x,
-        amigoHomem.getVetorComposto().local.y);
+    processing.translate(amigoHomem.getVetorComposto().getLocal().x, amigoHomem
+        .getVetorComposto().getLocal().y);
 
     /*
      * Desenho: Triangulo
@@ -37,12 +35,11 @@ public class EspecialistaDesenho implements Desenhador {
     processing.fill(255);
     processing.stroke(255);
     processing.strokeWeight(1);
-    processing.triangle(amigoHomem.getVetorComposto().local.x,
-        amigoHomem.getVetorComposto().local.y + 3,
-        amigoHomem.getVetorComposto().local.x - 3,
-        amigoHomem.getVetorComposto().local.y,
-        amigoHomem.getVetorComposto().local.x + 3,
-        amigoHomem.getVetorComposto().local.y);
+    processing.triangle(amigoHomem.getVetorComposto().getLocal().x, amigoHomem
+        .getVetorComposto().getLocal().y + 3, amigoHomem.getVetorComposto()
+        .getLocal().x - 3, amigoHomem.getVetorComposto().getLocal().y,
+        amigoHomem.getVetorComposto().getLocal().x + 3, amigoHomem
+            .getVetorComposto().getLocal().y);
 
     /*
      * Desenho: Circulo
@@ -56,8 +53,8 @@ public class EspecialistaDesenho implements Desenhador {
     processing.noFill();
     processing.strokeWeight(2);
     processing.stroke(88, 32, 244);
-    processing.ellipse(amigoHomem.getVetorComposto().local.x,
-        amigoHomem.getVetorComposto().local.y, 20, 20);
+    processing.ellipse(amigoHomem.getVetorComposto().getLocal().x, amigoHomem
+        .getVetorComposto().getLocal().y, 20, 20);
     processing.popMatrix();
 
   }
@@ -66,8 +63,8 @@ public class EspecialistaDesenho implements Desenhador {
   public void displayMulher(AmigoMulher amigoMulher) {
 
     processing.pushMatrix();
-    processing.translate(amigoMulher.getVetorComposto().local.x,
-        amigoMulher.getVetorComposto().local.y);
+    processing.translate(amigoMulher.getVetorComposto().getLocal().x,
+        amigoMulher.getVetorComposto().getLocal().y);
 
     /*
      * Desenho: Retangulo
@@ -81,8 +78,8 @@ public class EspecialistaDesenho implements Desenhador {
     processing.fill(255);
     processing.stroke(255);
     processing.strokeWeight(1);
-    processing.rect(amigoMulher.getVetorComposto().local.x - 3,
-        amigoMulher.getVetorComposto().local.y, 6, 3);
+    processing.rect(amigoMulher.getVetorComposto().getLocal().x - 3,
+        amigoMulher.getVetorComposto().getLocal().y, 6, 3);
 
     /*
      * Desenho: Circulo
@@ -96,8 +93,8 @@ public class EspecialistaDesenho implements Desenhador {
     processing.noFill();
     processing.strokeWeight(2);
     processing.stroke(244, 32, 88);
-    processing.ellipse(amigoMulher.getVetorComposto().local.x,
-        amigoMulher.getVetorComposto().local.y, 20, 20);
+    processing.ellipse(amigoMulher.getVetorComposto().getLocal().x, amigoMulher
+        .getVetorComposto().getLocal().y, 20, 20);
     processing.popMatrix();
 
   }
@@ -106,8 +103,8 @@ public class EspecialistaDesenho implements Desenhador {
   public void displayDestacado(AmigoDestacado amigoDestacado) {
 
     processing.pushMatrix();
-    processing.translate(amigoDestacado.getVetorComposto().local.x,
-        amigoDestacado.getVetorComposto().local.y);
+    processing.translate(amigoDestacado.getVetorComposto().getLocal().x,
+        amigoDestacado.getVetorComposto().getLocal().y);
 
     /*
      * Desenho: Circulo
@@ -119,44 +116,46 @@ public class EspecialistaDesenho implements Desenhador {
      * Peso do Contorno: 2 pixel wide
      */
     processing.noFill();
-    processing.strokeWeight(2);
+    processing.strokeWeight(3);
     processing.stroke(88, 244, 32);
-    processing.ellipse(amigoDestacado.getVetorComposto().local.x,
-        amigoDestacado.getVetorComposto().local.y, 50, 50);
-
-    /*
-     * Desenho: Triangulo
-     * 
-     * Preenchimento: Branco
-     * 
-     * Contorno: Branco
-     * 
-     * Peso do Contorno: 1 pixel wide
-     */
-    processing.fill(255);
-    processing.stroke(255);
-    processing.strokeWeight(1);
-    processing.triangle(amigoDestacado.getVetorComposto().local.x,
-        amigoDestacado.getVetorComposto().local.y - 3,
-        amigoDestacado.getVetorComposto().local.x - 3,
-        amigoDestacado.getVetorComposto().local.y,
-        amigoDestacado.getVetorComposto().local.x + 3,
-        amigoDestacado.getVetorComposto().local.y);
+    processing.ellipse(amigoDestacado.getVetorComposto().getLocal().x,
+        amigoDestacado.getVetorComposto().getLocal().y, 50, 50);
 
     /*
      * Desenho: Circulo
      * 
      * Preenchimento: Vazio
      * 
-     * Contorno: Azul Escuro
+     * Contorno: Branco
+     * 
+     * Peso do Contorno: 2 pixel wide
+     */
+    processing.noFill();
+    processing.stroke(255);
+    processing.strokeWeight(2);
+    processing.ellipse(amigoDestacado.getVetorComposto().getLocal().x,
+        amigoDestacado.getVetorComposto().getLocal().y, 16, 16);
+
+    /*
+     * Desenho: Quad
+     * 
+     * Preenchimento: Vazio
+     * 
+     * Contorno: Alaranjado
      * 
      * Peso do Contorno: 2 pixel wide
      */
     processing.noFill();
     processing.strokeWeight(2);
-    processing.stroke(88, 32, 244);
-    processing.ellipse(amigoDestacado.getVetorComposto().local.x,
-        amigoDestacado.getVetorComposto().local.y, 20, 20);
+    processing.stroke(281, 70, 49);
+    processing.quad(amigoDestacado.getVetorComposto().getLocal().x - 9,
+        amigoDestacado.getVetorComposto().getLocal().y + 2, amigoDestacado
+            .getVetorComposto().getLocal().x - 3, amigoDestacado
+            .getVetorComposto().getLocal().y + 3, amigoDestacado
+            .getVetorComposto().getLocal().x + 3, amigoDestacado
+            .getVetorComposto().getLocal().y - 5, amigoDestacado
+            .getVetorComposto().getLocal().x + 3, amigoDestacado
+            .getVetorComposto().getLocal().y + 7);
     processing.popMatrix();
 
   }
@@ -165,13 +164,13 @@ public class EspecialistaDesenho implements Desenhador {
   public void escrevaInfoAmigoHomem(AmigoHomem amigoHomem) {
 
     processing.pushMatrix();
-    processing.translate(amigoHomem.getVetorComposto().local.x,
-        amigoHomem.getVetorComposto().local.y);
-    processing.fill(255, 60);
+    processing.translate(amigoHomem.getVetorComposto().getLocal().x, amigoHomem
+        .getVetorComposto().getLocal().y);
+    processing.fill(255, 70);
     processing.textFont(font);
-    processing.text(amigoHomem.getInfo().toString(),
-        amigoHomem.getVetorComposto().local.x,
-        amigoHomem.getVetorComposto().local.y + 22);
+    processing.text(amigoHomem.getInfo().toString(), amigoHomem
+        .getVetorComposto().getLocal().x, amigoHomem.getVetorComposto()
+        .getLocal().y + 22);
     processing.popMatrix();
 
   }
@@ -180,13 +179,13 @@ public class EspecialistaDesenho implements Desenhador {
   public void escrevaInfoAmigoMulher(AmigoMulher amigoMulher) {
 
     processing.pushMatrix();
-    processing.translate(amigoMulher.getVetorComposto().local.x,
-        amigoMulher.getVetorComposto().local.y);
-    processing.fill(255, 60);
+    processing.translate(amigoMulher.getVetorComposto().getLocal().x,
+        amigoMulher.getVetorComposto().getLocal().y);
+    processing.fill(255, 70);
     processing.textFont(font);
-    processing.text(amigoMulher.getInfo().toString(),
-        amigoMulher.getVetorComposto().local.x,
-        amigoMulher.getVetorComposto().local.y + 22);
+    processing.text(amigoMulher.getInfo().toString(), amigoMulher
+        .getVetorComposto().getLocal().x, amigoMulher.getVetorComposto()
+        .getLocal().y);
     processing.popMatrix();
 
   }
@@ -195,13 +194,13 @@ public class EspecialistaDesenho implements Desenhador {
   public void escrevaInfoAmigoDestacado(AmigoDestacado amigoDestacado) {
 
     processing.pushMatrix();
-    processing.translate(amigoDestacado.getVetorComposto().local.x,
-        amigoDestacado.getVetorComposto().local.y);
-    processing.fill(255, 60);
+    processing.translate(amigoDestacado.getVetorComposto().getLocal().x,
+        amigoDestacado.getVetorComposto().getLocal().y);
+    processing.fill(255, 70);
     processing.textFont(font);
-    processing.text(amigoDestacado.getInfo().toString(),
-        amigoDestacado.getVetorComposto().local.x,
-        amigoDestacado.getVetorComposto().local.y + 22);
+    processing.text(amigoDestacado.getInfo().toString(), amigoDestacado
+        .getVetorComposto().getLocal().x, amigoDestacado.getVetorComposto()
+        .getLocal().y + 22);
     processing.popMatrix();
 
   }
