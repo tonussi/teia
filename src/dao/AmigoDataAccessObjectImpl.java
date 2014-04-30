@@ -91,7 +91,7 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
   }
 
   @Override
-  public List<Info> listaAmigosPorGenero(String sex) {
+  public List<Info> listaAmigosPorGeneroEAgerank(String sex, int agerank) {
 
     List<Info> infos = new ArrayList<Info>();
 
@@ -99,8 +99,8 @@ public class AmigoDataAccessObjectImpl implements AmigoDataAccessObject {
       connection = dbConnection.connect();
       statement = connection.createStatement();
       resultSet = statement
-          .executeQuery("select uid, uname, sex, locale, agerank from amigos where agerank < 300 AND sex = "
-              + "'" + sex + "'");
+          .executeQuery("select uid, uname, sex, locale, agerank from amigos where agerank > "
+              + "'" + agerank + "'" + " AND sex = " + "'" + sex + "'");
       while (resultSet.next())
         infos.add(new Info(BigInteger.valueOf(Long.valueOf(resultSet
             .getString(1))), resultSet.getString(2), resultSet.getString(3),
