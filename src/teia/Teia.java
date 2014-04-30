@@ -13,6 +13,7 @@ import model.Info;
 import model.Vertice;
 import processing.core.PApplet;
 import processing.core.PFont;
+import processing.core.PVector;
 import view.Desenhador;
 import view.EspecialistaDesenho;
 import view.EspecialistaMovimento;
@@ -33,11 +34,13 @@ import dao.DBConnectionImpl;
  * construcao e implementacao dessas propriedades devem
  * gerar novas classes modelo e devem ser construidas
  * realizacoes em cima dessas propriedades diferentes
- *
- *
+ * 
+ * 
  * @author lucastonussi
  */
 public class Teia extends PApplet {
+
+  private static final long serialVersionUID = 7735608756355998662L;
 
   List<AmigoMulher> amigosMulheres;
   List<AmigoHomem> amigosHomens;
@@ -65,7 +68,7 @@ public class Teia extends PApplet {
      * Cria uma fonte para escrever as infos dos amigos na
      * rede
      */
-    font = createFont("Helvetica", 8, true);
+    font = createFont("Helvetica", 6, true);
 
     /*
      * Cria listagem de amigos tipo homem
@@ -116,7 +119,7 @@ public class Teia extends PApplet {
      * amigos em homens e mulheres
      */
     infosAmigosHomens = new ArrayList<Info>(
-        amigoDataAccessObject.listaAmigosPorGenero("male"));
+        amigoDataAccessObject.listaAmigosPorGeneroEAgerank("male", 200));
 
     /*
      * Cria listagem das infos das mulheres na rede para
@@ -124,7 +127,7 @@ public class Teia extends PApplet {
      * amigos em homens e mulheres
      */
     infosAmigosMulheres = new ArrayList<Info>(
-        amigoDataAccessObject.listaAmigosPorGenero("female"));
+        amigoDataAccessObject.listaAmigosPorGeneroEAgerank("female", 200));
 
     /*
      * Cris listagem das infos de amigos destacados baseado
@@ -154,22 +157,23 @@ public class Teia extends PApplet {
      * Cria lista de informacao para cada amigo tipo homem
      */
     for (Info infoHomem : infosAmigosHomens)
-      amigosHomens.add(new AmigoHomem(infoHomem, new VetorComposto()));
+      amigosHomens.add(new AmigoHomem(infoHomem, new VetorComposto(PVector
+          .random2D(), PVector.random2D(), PVector.random2D())));
 
     /*
      * Cria lista de informacao para cada amigo tipo mulher
      */
     for (Info infoMulher : infosAmigosMulheres)
-      amigosMulheres.add(new AmigoMulher(infoMulher, new VetorComposto()));
+      amigosMulheres.add(new AmigoMulher(infoMulher, new VetorComposto(PVector
+          .random2D(), PVector.random2D(), PVector.random2D())));
 
     /*
      * Cria lista de informacao para cada amigo tipo
      * destacado
      */
     for (Info infoDestacado : infosAmigosDestacados)
-      amigosDestacados.add(new AmigoDestacado(infoDestacado,
-          new VetorComposto()));
-
+      amigosDestacados.add(new AmigoDestacado(infoDestacado, new VetorComposto(
+          PVector.random2D(), PVector.random2D(), PVector.random2D())));
     /*
      * Inicia threads trabalhadores dos desenhos dos amigos
      * tipo homem
@@ -184,7 +188,6 @@ public class Teia extends PApplet {
      */
     trabalhadorAmigoMulher = new TrabalhadorAmigoMulher(amigosMulheres,
         especialistaDesenho, especialistaMovimento);
-    trabalhadorAmigoMulher.setPriority(10);
     trabalhadorAmigoMulher.start();
 
     /*
@@ -193,25 +196,25 @@ public class Teia extends PApplet {
      */
     trabalhadorAmigoDestacado = new TrabalhadorAmigoDestacado(amigosDestacados,
         especialistaDesenho, especialistaMovimento);
-    trabalhadorAmigoDestacado.setPriority(4);
     trabalhadorAmigoDestacado.start();
   }
 
   /**
-   *
+   * 
    * @see http://wiki.processing.org/w/
    *      Window_Size_and_Full_Screen
-   *
+   * 
    *      O codigo a seguir cria a possibilidade de voce
    *      redimensionar o seu canvas onde o processing
    *      estara rodando a aplicacao.
    *      <code>if (frame != null)
    *      frame.setResizable(true);</code>
-   *
-   *
-   * @see https ://en.wikipedia.org/wiki/4 K_resolution Para
-   *      saber sobre
-   *
+   * 
+   * 
+   * @see https
+   *      ://en.wikipedia.org/wiki/4 K_resolution Para saber
+   *      sobre
+   * 
    *      resolucoes possiveis para tirar grandes shots
    *      basta visitar o link abaixo e entender mais sobre
    *      view port por exemplo
@@ -222,7 +225,7 @@ public class Teia extends PApplet {
   @Override
   public void setup() {
 
-    size(800, 450);
+    size(1200, 700);
 
     if (frame != null)
       frame.setResizable(true);
@@ -236,7 +239,7 @@ public class Teia extends PApplet {
   /**
    * Mantenha o draw() o mais simples possivel essa funcao
    * faz parte do processing e ficara rodando os desenhos.
-   *
+   * 
    * Procure separar em classes especilizadas no desenho que
    * vc quer fazer. Eliminando ao maximo possivel os
    * condicionais.
@@ -268,7 +271,7 @@ public class Teia extends PApplet {
 
   /**
    * Chamada principal do software
-   *
+   * 
    * @param _args
    */
   public static void main(String _args[]) {
